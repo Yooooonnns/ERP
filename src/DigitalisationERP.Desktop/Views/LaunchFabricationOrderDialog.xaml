@@ -1,0 +1,44 @@
+<Window x:Class="DigitalisationERP.Desktop.Views.LaunchFabricationOrderDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="Launch Fabrication Order" Height="320" Width="520"
+        WindowStartupLocation="CenterOwner"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{materialDesign:MaterialDesignFont}">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="Launch OF" Style="{StaticResource MaterialDesignHeadline5TextBlock}" Margin="0,0,0,16"/>
+
+        <StackPanel Grid.Row="1">
+            <TextBox x:Name="OrderNumberTextBox"
+                     materialDesign:HintAssist.Hint="OF Number"
+                     Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                     Margin="0,0,0,12"/>
+
+            <ComboBox x:Name="LineComboBox"
+                      materialDesign:HintAssist.Hint="Production Line"
+                      Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                      Margin="0,0,0,12"/>
+
+            <TextBox x:Name="QuantityTextBox"
+                     materialDesign:HintAssist.Hint="Quantity"
+                     Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                     PreviewTextInput="NumberValidation_PreviewTextInput"
+                     Margin="0,0,0,12"/>
+
+            <TextBlock Text="TU is taken from posts of the selected line." Foreground="{DynamicResource MaterialDesignBodyLight}" FontSize="11"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,16,0,0">
+            <Button Content="CANCEL" Style="{StaticResource MaterialDesignOutlinedButton}" Click="Cancel_Click" Width="110" Margin="0,0,10,0"/>
+            <Button Content="LAUNCH" Style="{StaticResource MaterialDesignRaisedButton}" Click="Launch_Click" Width="130"/>
+        </StackPanel>
+    </Grid>
+</Window>

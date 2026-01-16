@@ -1,0 +1,362 @@
+<UserControl x:Class="DigitalisationERP.Desktop.Views.ScadaDashboardPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
+             Background="#1A1A1A">
+
+    <Grid x:Name="RootGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0" Background="#2C3E50" Padding="20,15">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="MonitorDashboard" 
+                                           Width="32" Height="32"
+                                           Foreground="#00BCD4"
+                                           VerticalAlignment="Center"
+                                           Margin="0,0,15,0"/>
+                    <StackPanel>
+                        <TextBlock Text="SCADA Control Dashboard" 
+                                  FontSize="20" FontWeight="Bold"
+                                  Foreground="White"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                            <TextBlock x:Name="StatusText"
+                                      Text="System Online" 
+                                      FontSize="12"
+                                      Foreground="#4CAF50"
+                                      VerticalAlignment="Center"
+                                      Margin="0,0,15,0"/>
+                            <TextBlock Text="Line:" FontSize="11" Foreground="White" Opacity="0.9" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                            <ComboBox x:Name="ScadaLineSelector" 
+                                     SelectionChanged="ScadaLineSelector_SelectionChanged"
+                                     Width="200"
+                                     Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                                     Foreground="White"
+                                     BorderBrush="White"
+                                     materialDesign:TextFieldAssist.UnderlineBrush="White">
+                                <ComboBoxItem Content="🌍 Global SCADA - All Lines" Tag="GLOBAL"/>
+                            </ComboBox>
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- Alarm Bar -->
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <Border Background="#F44336" CornerRadius="3" Padding="10,5" Margin="0,0,10,0">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="AlertCircle" Width="18" Height="18" 
+                                                   Foreground="White" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="CriticalAlarmsText" Text="0" FontWeight="Bold" 
+                                     Foreground="White" Margin="6,0,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
+                    
+                    <Border Background="#FF9800" CornerRadius="3" Padding="10,5" Margin="0,0,10,0">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="Alert" Width="18" Height="18" 
+                                                   Foreground="White" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="WarningAlarmsText" Text="0" FontWeight="Bold" 
+                                     Foreground="White" Margin="6,0,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
+                    
+                    <Border Background="#2196F3" CornerRadius="3" Padding="10,5">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="Information" Width="18" Height="18" 
+                                                   Foreground="White" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="InfoAlarmsText" Text="0" FontWeight="Bold" 
+                                     Foreground="White" Margin="6,0,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Main Dashboard Grid -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <Grid Margin="20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Row 1: Key Metrics & Gauges -->
+                <Grid Grid.Row="0" Margin="0,0,0,20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- OEE Gauge -->
+                    <Border Grid.Column="0" Background="#2C3E50" CornerRadius="8" Padding="20" Margin="0,0,10,0">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            
+                            <TextBlock Grid.Row="0" Text="OEE (Overall Equipment Effectiveness)" 
+                                     FontSize="11" FontWeight="SemiBold" Foreground="#95A5A6" 
+                                     Margin="0,0,0,10"/>
+                            
+                            <Viewbox Grid.Row="1" Width="180" Height="180">
+                                <Canvas Width="200" Height="200">
+                                    <!-- Background Circle -->
+                                    <Ellipse Width="180" Height="180" Canvas.Left="10" Canvas.Top="10"
+                                           Stroke="#34495E" StrokeThickness="15" Fill="Transparent"/>
+                                    
+                                    <!-- Progress Arc -->
+                                    <Path x:Name="OeeArc" Stroke="#4CAF50" StrokeThickness="15" 
+                                        StrokeDashCap="Round" Fill="Transparent"/>
+                                    
+                                    <!-- Center Value -->
+                                    <TextBlock x:Name="OeeValueText" Text="85%" 
+                                             FontSize="48" FontWeight="Bold"
+                                             Foreground="White" 
+                                             Canvas.Left="100" Canvas.Top="80"
+                                             TextAlignment="Center">
+                                        <TextBlock.RenderTransform>
+                                            <TranslateTransform X="-40" Y="0"/>
+                                        </TextBlock.RenderTransform>
+                                    </TextBlock>
+                                    <TextBlock Text="Target: 90%" FontSize="12" Foreground="#95A5A6"
+                                             Canvas.Left="100" Canvas.Top="130"
+                                             TextAlignment="Center">
+                                        <TextBlock.RenderTransform>
+                                            <TranslateTransform X="-30" Y="0"/>
+                                        </TextBlock.RenderTransform>
+                                    </TextBlock>
+                                </Canvas>
+                            </Viewbox>
+                        </Grid>
+                    </Border>
+
+                    <!-- Production Rate -->
+                    <Border Grid.Column="1" Background="#2C3E50" CornerRadius="8" Padding="20" Margin="0,0,10,0">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            
+                            <TextBlock Grid.Row="0" Text="PRODUCTION RATE" 
+                                     FontSize="11" FontWeight="SemiBold" Foreground="#95A5A6"/>
+                            
+                            <StackPanel Grid.Row="1" VerticalAlignment="Center">
+                                <TextBlock x:Name="ProductionRateText" Text="1,247" 
+                                         FontSize="56" FontWeight="Bold" Foreground="#00BCD4"
+                                         HorizontalAlignment="Center"/>
+                                <TextBlock Text="units/hour" FontSize="14" Foreground="#95A5A6"
+                                         HorizontalAlignment="Center" Margin="0,5,0,0"/>
+                            </StackPanel>
+                            
+                            <Border Grid.Row="2" Background="#1A252F" CornerRadius="4" Padding="10,5">
+                                <StackPanel>
+                                    <TextBlock Text="Target: 1,500 units/hour" FontSize="10" Foreground="#95A5A6"/>
+                                    <ProgressBar x:Name="RateProgress" Height="4" Value="83" Maximum="100"
+                                               Foreground="#00BCD4" Background="#34495E" Margin="0,5,0,0"/>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                    </Border>
+
+                    <!-- Quality Rate -->
+                    <Border Grid.Column="2" Background="#2C3E50" CornerRadius="8" Padding="20" Margin="0,0,10,0">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            
+                            <TextBlock Grid.Row="0" Text="QUALITY RATE" 
+                                     FontSize="11" FontWeight="SemiBold" Foreground="#95A5A6"/>
+                            
+                            <StackPanel Grid.Row="1" VerticalAlignment="Center">
+                                <TextBlock x:Name="QualityRateText" Text="98.2%" 
+                                         FontSize="56" FontWeight="Bold" Foreground="#4CAF50"
+                                         HorizontalAlignment="Center"/>
+                                <TextBlock Text="first pass yield" FontSize="14" Foreground="#95A5A6"
+                                         HorizontalAlignment="Center" Margin="0,5,0,0"/>
+                            </StackPanel>
+                            
+                            <Grid Grid.Row="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Border Grid.Column="0" Background="#1A252F" CornerRadius="4" Padding="8,5" Margin="0,0,5,0">
+                                    <StackPanel>
+                                        <TextBlock Text="Good" FontSize="9" Foreground="#4CAF50"/>
+                                        <TextBlock x:Name="GoodUnitsText" Text="12,456" FontSize="14" 
+                                                 Foreground="White" FontWeight="Bold"/>
+                                    </StackPanel>
+                                </Border>
+                                <Border Grid.Column="1" Background="#1A252F" CornerRadius="4" Padding="8,5" Margin="5,0,0,0">
+                                    <StackPanel>
+                                        <TextBlock Text="Defects" FontSize="9" Foreground="#F44336"/>
+                                        <TextBlock x:Name="DefectUnitsText" Text="228" FontSize="14" 
+                                                 Foreground="White" FontWeight="Bold"/>
+                                    </StackPanel>
+                                </Border>
+                            </Grid>
+                        </Grid>
+                    </Border>
+
+                    <!-- Availability -->
+                    <Border Grid.Column="3" Background="#2C3E50" CornerRadius="8" Padding="20">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            
+                            <TextBlock Grid.Row="0" Text="AVAILABILITY" 
+                                     FontSize="11" FontWeight="SemiBold" Foreground="#95A5A6"/>
+                            
+                            <StackPanel Grid.Row="1" VerticalAlignment="Center">
+                                <TextBlock x:Name="AvailabilityText" Text="94.5%" 
+                                         FontSize="56" FontWeight="Bold" Foreground="#FF9800"
+                                         HorizontalAlignment="Center"/>
+                                <TextBlock Text="uptime" FontSize="14" Foreground="#95A5A6"
+                                         HorizontalAlignment="Center" Margin="0,5,0,0"/>
+                            </StackPanel>
+                            
+                            <Border Grid.Row="2" Background="#1A252F" CornerRadius="4" Padding="10,5">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Grid.Column="0">
+                                        <TextBlock Text="Uptime" FontSize="9" Foreground="#4CAF50"/>
+                                        <TextBlock x:Name="UptimeText" Text="22.7 hrs" FontSize="11" 
+                                                 Foreground="White" FontWeight="SemiBold"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="1" HorizontalAlignment="Right">
+                                        <TextBlock Text="Downtime" FontSize="9" Foreground="#F44336"/>
+                                        <TextBlock x:Name="DowntimeText" Text="1.3 hrs" FontSize="11" 
+                                                 Foreground="White" FontWeight="SemiBold"/>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                        </Grid>
+                    </Border>
+                </Grid>
+
+                <!-- Row 2: Production Posts Status & Trends -->
+                <Grid Grid.Row="1" Margin="0,0,0,20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Production Posts Panel -->
+                    <Border Grid.Column="0" Background="#2C3E50" CornerRadius="8" Padding="20" Margin="0,0,10,0">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            
+                            <TextBlock Grid.Row="0" Text="PRODUCTION POSTS STATUS" 
+                                     FontSize="12" FontWeight="Bold" Foreground="White" Margin="0,0,0,15"/>
+                            
+                            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" MaxHeight="300">
+                                <StackPanel x:Name="PostsStatusPanel">
+                                    <!-- Posts will be added dynamically -->
+                                </StackPanel>
+                            </ScrollViewer>
+                        </Grid>
+                    </Border>
+
+                    <!-- Production Trend Chart -->
+                    <Border Grid.Column="1" Background="#2C3E50" CornerRadius="8" Padding="20">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            
+                            <TextBlock Grid.Row="0" Text="HOURLY PRODUCTION" 
+                                     FontSize="12" FontWeight="Bold" Foreground="White" Margin="0,0,0,10"/>
+                            
+                            <lvc:CartesianChart Grid.Row="1" x:Name="ProductionTrendChart"
+                                              LegendPosition="Hidden" 
+                                              Background="Transparent"/>
+                        </Grid>
+                    </Border>
+                </Grid>
+
+                <!-- Row 3: Alarms & Messages -->
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Active Alarms -->
+                    <Border Grid.Column="0" Background="#2C3E50" CornerRadius="8" Padding="20" Margin="0,0,10,0">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            
+                            <Grid Grid.Row="0" Margin="0,0,0,15">
+                                <TextBlock Text="ACTIVE ALARMS" 
+                                         FontSize="12" FontWeight="Bold" Foreground="White"/>
+                                <Button Content="ACKNOWLEDGE ALL" 
+                                      Style="{StaticResource MaterialDesignOutlinedButton}"
+                                      Height="28" Padding="15,0"
+                                      Foreground="#00BCD4" BorderBrush="#00BCD4"
+                                      HorizontalAlignment="Right"
+                                      Click="AcknowledgeAllAlarms_Click"/>
+                            </Grid>
+                            
+                            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" MaxHeight="250">
+                                <StackPanel x:Name="AlarmsPanel">
+                                    <!-- Alarms will be added dynamically -->
+                                </StackPanel>
+                            </ScrollViewer>
+                        </Grid>
+                    </Border>
+
+                    <!-- System Messages -->
+                    <Border Grid.Column="1" Background="#2C3E50" CornerRadius="8" Padding="20">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            
+                            <TextBlock Grid.Row="0" Text="SYSTEM MESSAGES" 
+                                     FontSize="12" FontWeight="Bold" Foreground="White" Margin="0,0,0,15"/>
+                            
+                            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" MaxHeight="250">
+                                <StackPanel x:Name="MessagesPanel">
+                                    <!-- Messages will be added dynamically -->
+                                </StackPanel>
+                            </ScrollViewer>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

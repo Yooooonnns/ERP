@@ -1,0 +1,90 @@
+<UserControl x:Class="DigitalisationERP.Desktop.Views.LoginPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             Background="#F5F5F5"
+             Height="600" Width="400">
+    <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Width="350">
+        <!-- Container blanc -->
+        <Border Background="White" CornerRadius="8" Padding="30">
+            <StackPanel VerticalAlignment="Center">
+                <!-- Titre -->
+                <TextBlock Text="🏭 DigitalisationERP" FontSize="24" FontWeight="Bold"
+                           Foreground="#2196F3" Margin="0,0,0,10" TextAlignment="Center"/>
+                
+                <TextBlock Text="Production Management System" FontSize="12"
+                           Foreground="#999" Margin="0,0,0,30" TextAlignment="Center"/>
+
+                <!-- Mode (Login/Register) Buttons -->
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
+                    <Button x:Name="LoginModeButton" Content="Login" Padding="10,8"
+                            Click="LoginModeButton_Click" Background="#2196F3" Foreground="White"
+                            FontWeight="Bold" Cursor="Hand" Width="160" Margin="0,0,10,0"/>
+                    <Button x:Name="RegisterModeButton" Content="Register" Padding="10,8"
+                            Click="RegisterModeButton_Click" Background="#E0E0E0" Foreground="#333"
+                            FontWeight="Bold" Cursor="Hand" Width="160"/>
+                </StackPanel>
+
+                <!-- Ligne de séparation -->
+                <Border Height="1" Background="#E0E0E0" Margin="0,0,0,20"/>
+
+                <!-- Login Form -->
+                <StackPanel x:Name="LoginPanel" Visibility="Visible">
+                    <TextBlock Text="Email" FontSize="12" FontWeight="Bold" Foreground="#333" Margin="0,0,0,5"/>
+                    <TextBox x:Name="LoginEmailInput" Padding="10,12" FontSize="12" Margin="0,0,0,15"
+                             Background="#F5F5F5" BorderThickness="1" BorderBrush="#DDD"/>
+
+                    <TextBlock Text="Password" FontSize="12" FontWeight="Bold" Foreground="#333" Margin="0,0,0,5"/>
+                    <PasswordBox x:Name="LoginPasswordInput" Padding="10,12" FontSize="12" Margin="0,0,0,20"
+                                 Background="#F5F5F5" BorderThickness="1" BorderBrush="#DDD"/>
+
+                    <Button Content="Login" Padding="12" FontSize="14" FontWeight="Bold"
+                            Click="LoginButton_Click" Background="#2196F3" Foreground="White"
+                            Cursor="Hand" Margin="0,0,0,15"/>
+
+                    <TextBlock x:Name="LoginErrorMessage" Text="" FontSize="11" Foreground="#D32F2F"
+                               TextWrapping="Wrap" Margin="0,0,0,10"/>
+                </StackPanel>
+
+                <!-- Register Form -->
+                <StackPanel x:Name="RegisterPanel" Visibility="Collapsed">
+                    <TextBlock Text="First Name" FontSize="12" FontWeight="Bold" Foreground="#333" Margin="0,0,0,5"/>
+                    <TextBox x:Name="RegisterFirstNameInput" Padding="10,12" FontSize="12" Margin="0,0,0,15"
+                             Background="#F5F5F5" BorderThickness="1" BorderBrush="#DDD"/>
+
+                    <TextBlock Text="Last Name" FontSize="12" FontWeight="Bold" Foreground="#333" Margin="0,0,0,5"/>
+                    <TextBox x:Name="RegisterLastNameInput" Padding="10,12" FontSize="12" Margin="0,0,0,15"
+                             Background="#F5F5F5" BorderThickness="1" BorderBrush="#DDD"/>
+
+                    <TextBlock Text="Email" FontSize="12" FontWeight="Bold" Foreground="#333" Margin="0,0,0,5"/>
+                    <TextBox x:Name="RegisterEmailInput" Padding="10,12" FontSize="12" Margin="0,0,0,15"
+                             Background="#F5F5F5" BorderThickness="1" BorderBrush="#DDD"/>
+
+                    <TextBlock Text="Password (min 8 chars)" FontSize="12" FontWeight="Bold" Foreground="#333" Margin="0,0,0,5"/>
+                    <PasswordBox x:Name="RegisterPasswordInput" Padding="10,12" FontSize="12" Margin="0,0,0,20"
+                                 Background="#F5F5F5" BorderThickness="1" BorderBrush="#DDD"/>
+
+                    <Button Content="Create Account" Padding="12" FontSize="14" FontWeight="Bold"
+                            Click="RegisterButton_Click" Background="#4CAF50" Foreground="White"
+                            Cursor="Hand" Margin="0,0,0,15"/>
+
+                    <TextBlock x:Name="RegisterErrorMessage" Text="" FontSize="11" Foreground="#D32F2F"
+                               TextWrapping="Wrap" Margin="0,0,0,10"/>
+                </StackPanel>
+
+                <!-- Footer -->
+                <TextBlock Text="Demo: Test with any email/password combo (8+ chars)" FontSize="10"
+                           Foreground="#AAA" TextAlignment="Center" Margin="0,10,0,0"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Loading Overlay -->
+        <Border x:Name="LoadingOverlay" Background="Black" Opacity="0.3" Visibility="Collapsed"
+                CornerRadius="8"/>
+        <StackPanel x:Name="LoadingSpinner" VerticalAlignment="Center" HorizontalAlignment="Center"
+                    Visibility="Collapsed">
+            <TextBlock Text="🔄 Loading..." FontSize="14" Foreground="White" TextAlignment="Center"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

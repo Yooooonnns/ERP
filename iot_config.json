@@ -1,0 +1,119 @@
+{
+  "provider": "simulation",
+  "bluetooth": {
+    "enabled": false,
+    "comPort": "COM3",
+    "baudRate": 9600,
+    "newLine": "\n",
+    "robotId": "AGV-001"
+  },
+  "mqtt": {
+    "brokerAddress": "localhost",
+    "brokerPort": 1883,
+    "clientId": "DigitalisationERP_Desktop",
+    "username": "",
+    "password": ""
+  },
+  "sensors": [
+    {
+      "id": "TEMP-POST-01",
+      "name": "Température Poste 1",
+      "type": "temperature",
+      "unit": "°C",
+      "location": "POST-01",
+      "thresholds": {
+        "warning": 75.0,
+        "critical": 80.0
+      },
+      "mqttTopic": "factory/sensors/temp-post-01"
+    },
+    {
+      "id": "TEMP-POST-02",
+      "name": "Température Poste 2",
+      "type": "temperature",
+      "unit": "°C",
+      "location": "POST-02",
+      "thresholds": {
+        "warning": 75.0,
+        "critical": 80.0
+      },
+      "mqttTopic": "factory/sensors/temp-post-02"
+    },
+    {
+      "id": "VIBR-MACHINE-A1",
+      "name": "Vibrations Machine A1",
+      "type": "vibration",
+      "unit": "Hz",
+      "location": "POST-01",
+      "thresholds": {
+        "warning": 45.0,
+        "critical": 50.0
+      },
+      "mqttTopic": "factory/sensors/vibration-a1"
+    },
+    {
+      "id": "PRESS-HYDRAULIC-03",
+      "name": "Pression Hydraulique 03",
+      "type": "pressure",
+      "unit": "bar",
+      "location": "POST-03",
+      "thresholds": {
+        "warning": 180.0,
+        "critical": 200.0
+      },
+      "mqttTopic": "factory/sensors/pressure-03"
+    },
+    {
+      "id": "POWER-LINE-01",
+      "name": "Consommation Ligne 01",
+      "type": "power",
+      "unit": "kW",
+      "location": "LINE-01",
+      "thresholds": {
+        "warning": 450.0,
+        "critical": 500.0
+      },
+      "mqttTopic": "factory/sensors/power-line-01"
+    }
+  ],
+  "robots": [
+    {
+      "id": "AGV-001",
+      "name": "Robot Transport 1",
+      "type": "AGV",
+      "baseLocation": "WAREHOUSE",
+      "allowedLocations": ["POST-01", "POST-02", "POST-03", "POST-04", "POST-05", "WAREHOUSE", "STORAGE-A", "STORAGE-B"],
+      "mqttCommandTopic": "factory/robots/agv-001/command",
+      "mqttStateTopic": "factory/robots/agv-001/state"
+    },
+    {
+      "id": "AGV-002",
+      "name": "Robot Transport 2",
+      "type": "AGV",
+      "baseLocation": "WAREHOUSE",
+      "allowedLocations": ["POST-01", "POST-02", "POST-03", "POST-04", "POST-05", "WAREHOUSE", "STORAGE-A", "STORAGE-B"],
+      "mqttCommandTopic": "factory/robots/agv-002/command",
+      "mqttStateTopic": "factory/robots/agv-002/state"
+    },
+    {
+      "id": "COBOT-ARM-01",
+      "name": "Bras Collaboratif 01",
+      "type": "COBOT",
+      "baseLocation": "POST-02",
+      "allowedLocations": ["POST-02"],
+      "mqttCommandTopic": "factory/robots/cobot-01/command",
+      "mqttStateTopic": "factory/robots/cobot-01/state"
+    }
+  ],
+  "logging": {
+    "enableFileLogging": true,
+    "logDirectory": "logs",
+    "logLevel": "INFO",
+    "archiveAfterDays": 30
+  },
+  "simulation": {
+    "enableRandomAlerts": true,
+    "sensorUpdateIntervalMs": 3000,
+    "alertProbability": 0.15
+  }
+}

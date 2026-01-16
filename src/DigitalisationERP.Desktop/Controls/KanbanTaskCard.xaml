@@ -1,0 +1,123 @@
+<UserControl x:Class="DigitalisationERP.Desktop.Controls.KanbanTaskCard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             Width="260" Cursor="Hand">
+    
+    <Border x:Name="RootBorder" BorderThickness="1" CornerRadius="6" Background="White"
+            BorderBrush="#E0E0E0">
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="6" ShadowDepth="1" Opacity="0.2" />
+        </Border.Effect>
+        
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!-- Priority Stripe -->
+            <Border Grid.Row="0" x:Name="PriorityStripe" Height="4" 
+                  Background="#2196F3" CornerRadius="6,6,0,0" />
+
+            <!-- Content -->
+            <StackPanel Grid.Row="1" Margin="12,10,12,8">
+                <!-- Task Number -->
+                <TextBlock x:Name="TaskNumberText" Text="TASK-0001" 
+                         FontSize="10" Foreground="#999" FontWeight="SemiBold" />
+
+                <!-- Title -->
+                <TextBlock x:Name="TitleText" Text="Production Task" 
+                         FontSize="13" FontWeight="SemiBold" Foreground="#333" 
+                         Margin="0,4,0,8" TextWrapping="Wrap" />
+
+                <!-- OF Progress -->
+                <Grid Margin="0,0,0,8">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock x:Name="OfProgressText" Text="0/0" FontSize="10" Foreground="#666" />
+                    <ProgressBar x:Name="OfProgressBar" Grid.Row="1" Height="6" Value="0" Maximum="100" 
+                                 Foreground="#4CAF50" Background="#E0E0E0" />
+                </Grid>
+
+                <!-- Info Grid -->
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Assignee -->
+                    <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" 
+                              Margin="0,0,0,6">
+                        <materialDesign:PackIcon Kind="Account" Width="14" Height="14" 
+                                               Foreground="#666" VerticalAlignment="Center" />
+                        <TextBlock x:Name="AssigneeText" Text="User 1" 
+                                 FontSize="10" Foreground="#666" Margin="4,0,0,0" 
+                                 VerticalAlignment="Center" />
+                    </StackPanel>
+
+                    <!-- Time -->
+                    <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" 
+                              HorizontalAlignment="Right" Margin="0,0,0,6">
+                        <materialDesign:PackIcon Kind="Clock" Width="14" Height="14" 
+                                               Foreground="#666" VerticalAlignment="Center" />
+                        <TextBlock x:Name="TimeText" Text="4h" 
+                                 FontSize="10" Foreground="#666" Margin="4,0,0,0" 
+                                 VerticalAlignment="Center" />
+                    </StackPanel>
+
+                    <!-- Priority Badge -->
+                    <Border Grid.Row="1" Grid.Column="0" x:Name="PriorityBadge" 
+                          Background="#2196F3" CornerRadius="3" Padding="6,2" 
+                          HorizontalAlignment="Left">
+                        <TextBlock x:Name="PriorityText" Text="Medium" 
+                                 FontSize="9" Foreground="White" FontWeight="SemiBold" />
+                    </Border>
+
+                    <!-- Status Badge -->
+                    <Border Grid.Row="1" Grid.Column="1" Background="#F5F5F5" 
+                          CornerRadius="3" Padding="6,2" HorizontalAlignment="Right">
+                        <TextBlock x:Name="StatusBadgeText" Text="ToDo" 
+                                 FontSize="9" Foreground="#666" FontWeight="SemiBold" />
+                    </Border>
+                </Grid>
+            </StackPanel>
+
+            <!-- Footer Actions -->
+            <Border Grid.Row="2" Background="#FAFAFA" Padding="8,6" 
+                  CornerRadius="0,0,6,6" BorderBrush="#E0E0E0" BorderThickness="0,1,0,0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="Paperclip" Width="14" Height="14" 
+                                               Foreground="#999" VerticalAlignment="Center" />
+                        <TextBlock Text="2" FontSize="10" Foreground="#999" 
+                                 Margin="4,0,12,0" VerticalAlignment="Center" />
+                        
+                        <materialDesign:PackIcon Kind="Comment" Width="14" Height="14" 
+                                               Foreground="#999" VerticalAlignment="Center" />
+                        <TextBlock Text="5" FontSize="10" Foreground="#999" 
+                                 Margin="4,0,0,0" VerticalAlignment="Center" />
+                    </StackPanel>
+
+                    <materialDesign:PackIcon Grid.Column="1" Kind="DotsVertical" 
+                                           Width="16" Height="16" Foreground="#999" 
+                                           VerticalAlignment="Center" Cursor="Hand" />
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</UserControl>

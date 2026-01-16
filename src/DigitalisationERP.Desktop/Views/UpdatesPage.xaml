@@ -1,0 +1,124 @@
+<Page x:Class="DigitalisationERP.Desktop.Views.UpdatesPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      Background="{DynamicResource MaterialDesignPaper}"
+      Title="Updates">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Margin="20">
+            <TextBlock Text="Updates &amp; Version Management" FontSize="28" FontWeight="Bold"/>
+            <Button x:Name="CheckUpdatesButton" Style="{StaticResource MaterialDesignRaisedButton}" 
+                    Margin="0,15,0,0" Click="CheckUpdates_Click" Width="150" HorizontalAlignment="Left">
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="Refresh" Width="20" Height="20" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                    <TextBlock Text="Check Updates" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+        </StackPanel>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Current Version -->
+            <materialDesign:Card Grid.Column="0" Margin="20,0,10,20" Padding="20">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="Current Version" FontSize="16" FontWeight="Bold" Margin="0,0,0,20"/>
+
+                    <StackPanel Grid.Row="1" Margin="0,0,0,15">
+                        <TextBlock Text="Application" FontSize="12" Foreground="#666"/>
+                        <TextBlock Text="Digitalisation ERP - v2.0.5" FontSize="14" FontWeight="Bold" Margin="0,5,0,0"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="2" Margin="0,0,0,15">
+                        <TextBlock Text="Build Date" FontSize="12" Foreground="#666"/>
+                        <TextBlock Text="January 8, 2026" FontSize="13" FontWeight="SemiBold" Margin="0,5,0,0"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="3" Margin="0,0,0,15">
+                        <TextBlock Text="Status" FontSize="12" Foreground="#666"/>
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="CheckCircle" Width="20" Height="20" Foreground="#4CAF50" VerticalAlignment="Center" Margin="0,5,8,0"/>
+                            <TextBlock Text="Up to Date" FontSize="13" FontWeight="SemiBold" VerticalAlignment="Center" Margin="0,5,0,0"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <Button Grid.Row="4" Style="{StaticResource MaterialDesignRaisedSecondary}" 
+                           Click="ViewReleaseNotes_Click" HorizontalAlignment="Left">
+                        <TextBlock Text="View Release Notes" FontSize="12"/>
+                    </Button>
+                </Grid>
+            </materialDesign:Card>
+
+            <!-- Available Updates -->
+            <materialDesign:Card Grid.Column="1" Margin="10,0,20,20" Padding="20">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="Available Updates" FontSize="16" FontWeight="Bold" Margin="0,0,0,20"/>
+
+                    <StackPanel Grid.Row="1">
+                        <TextBlock Text="No updates available at this time." FontSize="13" Foreground="#999"/>
+                        <TextBlock Text="Your system is fully updated." FontSize="12" Foreground="#999" Margin="0,8,0,0"/>
+                        <TextBlock Text="Next check: Tomorrow 02:00 AM" FontSize="11" Foreground="#999" Margin="0,8,0,0"/>
+                    </StackPanel>
+                </Grid>
+            </materialDesign:Card>
+
+            <!-- Update History -->
+            <materialDesign:Card Grid.Column="0" Grid.ColumnSpan="2" Margin="20,0,20,20" Padding="20">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="Update History" FontSize="16" FontWeight="Bold" Margin="0,0,0,15"/>
+
+                    <ListBox x:Name="UpdateHistory" Grid.Row="1" ScrollViewer.VerticalScrollBarVisibility="Auto" MaxHeight="250">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderBrush="#F0F0F0" BorderThickness="0,0,0,1" Padding="0,10">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="200"/>
+                                            <ColumnDefinition Width="150"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <StackPanel Grid.Column="0">
+                                            <TextBlock Text="{Binding VersionNumber}" FontSize="13" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding Changes}" FontSize="11" Foreground="#666" Margin="0,3,0,0"/>
+                                        </StackPanel>
+
+                                        <TextBlock Grid.Column="1" Text="{Binding Date}" FontSize="12" Foreground="#999" VerticalAlignment="Center"/>
+                                        <TextBlock Grid.Column="2" Text="{Binding Status}" FontSize="12" Foreground="#4CAF50" VerticalAlignment="Center"/>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Grid>
+            </materialDesign:Card>
+        </Grid>
+    </Grid>
+</Page>

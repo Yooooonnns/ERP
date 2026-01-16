@@ -1,0 +1,87 @@
+<UserControl x:Class="DigitalisationERP.Desktop.Controls.ProductionPostControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             Width="180" Height="120" Cursor="Hand">
+    
+    <Border x:Name="RootBorder" BorderThickness="2" CornerRadius="8" Background="White"
+            BorderBrush="#2196F3">
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.3" />
+        </Border.Effect>
+        
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!-- Header with Status -->
+            <Border Grid.Row="0" x:Name="HeaderBorder" Background="#2196F3" CornerRadius="6,6,0,0">
+                <Grid Margin="10,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Ellipse Grid.Column="0" Width="16" Height="16" Fill="White" 
+                            VerticalAlignment="Center" />
+                    
+                    <StackPanel Grid.Column="1" Margin="8,0,0,0" VerticalAlignment="Center">
+                        <TextBlock x:Name="CodeText" Text="POST-001" FontWeight="Bold" 
+                                 Foreground="White" FontSize="12" />
+                        <TextBlock x:Name="NameText" Text="Workstation 1" 
+                                 Foreground="White" FontSize="10" Opacity="0.9" />
+                    </StackPanel>
+
+                    <Ellipse Grid.Column="2" x:Name="StatusIndicator" 
+                           Width="12" Height="12" Fill="#4CAF50" 
+                           VerticalAlignment="Center" />
+                </Grid>
+            </Border>
+
+            <!-- Content -->
+            <StackPanel Grid.Row="1" Margin="10,8">
+                <!-- Stock Capacity -->
+                <Grid Margin="0,0,0,6">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Stock" FontSize="10" 
+                             Foreground="#666" VerticalAlignment="Center" />
+                    <TextBlock Grid.Column="1" x:Name="CapacityText" Text="7/10" 
+                             FontWeight="Bold" FontSize="11" Foreground="#333" />
+                </Grid>
+                
+                <ProgressBar x:Name="CapacityBar" Height="6" Value="70" Maximum="100" 
+                           Foreground="#2196F3" Background="#E0E0E0" />
+
+                <!-- Material Level -->
+                <Grid Margin="0,8,0,4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Material" FontSize="10" 
+                             Foreground="#666" VerticalAlignment="Center" />
+                    <TextBlock Grid.Column="1" x:Name="MaterialLevelText" Text="85%" 
+                             FontWeight="Bold" FontSize="11" />
+                </Grid>
+                
+                <ProgressBar x:Name="MaterialBar" Height="6" Value="85" Maximum="100" 
+                           Background="#E0E0E0" />
+            </StackPanel>
+
+            <!-- Footer -->
+            <Border Grid.Row="2" Background="#F5F5F5" Padding="8,4" 
+                  CornerRadius="0,0,6,6">
+                <TextBlock x:Name="StatusText" Text="Active" FontSize="10" 
+                         FontWeight="SemiBold" TextAlignment="Center" 
+                         Foreground="#4CAF50" />
+            </Border>
+        </Grid>
+    </Border>
+</UserControl>

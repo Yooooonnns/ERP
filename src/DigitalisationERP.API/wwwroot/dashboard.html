@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Digitalisation ERP</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header h1 {
+            color: #667eea;
+        }
+        
+        .user-info {
+            text-align: right;
+        }
+        
+        .user-info p {
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .logout-btn {
+            padding: 8px 20px;
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .logout-btn:hover {
+            background: #c82333;
+        }
+        
+        .choices-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .choice-card {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .choice-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        
+        .choice-card.admin {
+            border-top: 5px solid #667eea;
+        }
+        
+        .choice-card.user {
+            border-top: 5px solid #28a745;
+        }
+        
+        .icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+        
+        .choice-card h2 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 24px;
+        }
+        
+        .choice-card p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .choice-card-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            border-radius: 5px;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .choice-card.admin .choice-card-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .choice-card.admin .choice-card-btn:hover {
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .choice-card.user .choice-card-btn {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        }
+        
+        .choice-card.user .choice-card-btn:hover {
+            box-shadow: 0 5px 20px rgba(40, 167, 69, 0.4);
+        }
+        
+        @media (max-width: 768px) {
+            .choices-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .user-info {
+                text-align: center;
+                margin-top: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Bienvenue sur Digitalisation ERP</h1>
+            <div class="user-info">
+                <p>Connecté en tant que: <strong id="user-email"></strong></p>
+                <button class="logout-btn" onclick="logout()">Déconnexion</button>
+            </div>
+        </div>
+        
+        <div class="choices-container">
+            <a href="/suser.html" class="choice-card admin">
+                <div class="icon">⚙️</div>
+                <h2>Mode Admin</h2>
+                <p>Accédez au panel d'administration pour gérer les demandes d'enregistrement des utilisateurs</p>
+                <span class="choice-card-btn">Accéder à l'Admin</span>
+            </a>
+            
+            <a href="javascript:launchDesktop()" class="choice-card user">
+                <div class="icon">📱</div>
+                <h2>Application Desktop</h2>
+                <p>Accédez à l'application principale de gestion d'entreprise</p>
+                <span class="choice-card-btn">Lancer l'Application</span>
+            </a>
+        </div>
+    </div>
+    
+    <script>
+        function logout() {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('user');
+            window.location.href = '/';
+        }
+        
+        function launchDesktop() {
+            // Le launcher de l'application desktop n'a pas besoin du token
+            // Car il gère ses propres processus
+            alert('Fermeture du navigateur... L\'application Desktop démarre.');
+            window.close();
+        }
+        
+        // Check if logged in
+        if (!localStorage.getItem('authToken')) {
+            window.location.href = '/';
+        }
+        
+        // Display user email
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        if (user.email) {
+            document.getElementById('user-email').textContent = user.email;
+        }
+    </script>
+</body>
+</html>

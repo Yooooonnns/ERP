@@ -1,0 +1,116 @@
+<Page x:Class="DigitalisationERP.Desktop.Views.AnalyticsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      Background="{DynamicResource MaterialDesignPaper}"
+      Title="Analytics">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Margin="20">
+            <TextBlock Text="Analytics &amp; Reporting" FontSize="28" FontWeight="Bold"/>
+            <TextBlock Text="Key performance indicators and trends" FontSize="12" Foreground="#666" Margin="0,5,0,0"/>
+        </StackPanel>
+
+        <Grid Grid.Row="1">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel Margin="20,0,20,20">
+                    <!-- KPI Cards -->
+                    <UniformGrid Rows="1" Columns="4" Margin="0,0,0,20">
+                        <materialDesign:Card Padding="20" Margin="0,0,10,0">
+                            <StackPanel>
+                                <materialDesign:PackIcon Kind="TrendingUp" Width="32" Height="32" Foreground="#4CAF50" Margin="0,0,0,10"/>
+                                <TextBlock Text="Revenue" FontSize="11" Foreground="#666" FontWeight="Medium"/>
+                                <TextBlock Text="$45,230" FontSize="20" FontWeight="Bold" Foreground="#2C3E50" Margin="0,5,0,0"/>
+                                <TextBlock Text="↑ 12% vs last month" FontSize="10" Foreground="#4CAF50"/>
+                            </StackPanel>
+                        </materialDesign:Card>
+
+                        <materialDesign:Card Padding="20" Margin="5,0,5,0">
+                            <StackPanel>
+                                <materialDesign:PackIcon Kind="Factory" Width="32" Height="32" Foreground="#2196F3" Margin="0,0,0,10"/>
+                                <TextBlock Text="Production" FontSize="11" Foreground="#666" FontWeight="Medium"/>
+                                <TextBlock Text="1,240 units" FontSize="20" FontWeight="Bold" Foreground="#2C3E50" Margin="0,5,0,0"/>
+                                <TextBlock Text="↑ 8% vs target" FontSize="10" Foreground="#4CAF50"/>
+                            </StackPanel>
+                        </materialDesign:Card>
+
+                        <materialDesign:Card Padding="20" Margin="5,0,5,0">
+                            <StackPanel>
+                                <materialDesign:PackIcon Kind="Package" Width="32" Height="32" Foreground="#FF9800" Margin="0,0,0,10"/>
+                                <TextBlock Text="Inventory" FontSize="11" Foreground="#666" FontWeight="Medium"/>
+                                <TextBlock Text="8,340 items" FontSize="20" FontWeight="Bold" Foreground="#2C3E50" Margin="0,5,0,0"/>
+                                <TextBlock Text="→ 2% variance" FontSize="10" Foreground="#FF9800"/>
+                            </StackPanel>
+                        </materialDesign:Card>
+
+                        <materialDesign:Card Padding="20" Margin="10,0,0,0">
+                            <StackPanel>
+                                <materialDesign:PackIcon Kind="AlertCircle" Width="32" Height="32" Foreground="#F44336" Margin="0,0,0,10"/>
+                                <TextBlock Text="Issues" FontSize="11" Foreground="#666" FontWeight="Medium"/>
+                                <TextBlock Text="3 Critical" FontSize="20" FontWeight="Bold" Foreground="#2C3E50" Margin="0,5,0,0"/>
+                                <TextBlock Text="↑ 2 new today" FontSize="10" Foreground="#F44336"/>
+                            </StackPanel>
+                        </materialDesign:Card>
+                    </UniformGrid>
+
+                    <!-- Charts -->
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <materialDesign:Card Grid.Column="0" Padding="20" Margin="0,0,10,0">
+                            <StackPanel>
+                                <TextBlock Text="Production Trend (Last 7 Days)" FontSize="14" FontWeight="Bold" Margin="0,0,0,15"/>
+                                <StackPanel Orientation="Horizontal" Height="150" VerticalAlignment="Bottom">
+                                    <Border Width="30" Height="80" Background="#2196F3" Margin="0,0,5,0" VerticalAlignment="Bottom"/>
+                                    <Border Width="30" Height="100" Background="#2196F3" Margin="0,0,5,0" VerticalAlignment="Bottom"/>
+                                    <Border Width="30" Height="90" Background="#2196F3" Margin="0,0,5,0" VerticalAlignment="Bottom"/>
+                                    <Border Width="30" Height="110" Background="#2196F3" Margin="0,0,5,0" VerticalAlignment="Bottom"/>
+                                    <Border Width="30" Height="95" Background="#2196F3" Margin="0,0,5,0" VerticalAlignment="Bottom"/>
+                                    <Border Width="30" Height="120" Background="#2196F3" Margin="0,0,5,0" VerticalAlignment="Bottom"/>
+                                    <Border Width="30" Height="105" Background="#4CAF50" Margin="0,0,5,0" VerticalAlignment="Bottom"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </materialDesign:Card>
+
+                        <materialDesign:Card Grid.Column="1" Padding="20">
+                            <StackPanel>
+                                <TextBlock Text="Performance Metrics" FontSize="14" FontWeight="Bold" Margin="0,0,0,15"/>
+                                <StackPanel Margin="0,0,0,10">
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                                        <TextBlock Text="Efficiency Rate" FontSize="11" Width="100"/>
+                                        <TextBlock Text="94.2%" FontSize="11" FontWeight="Bold" Foreground="#4CAF50"/>
+                                    </StackPanel>
+                                    <ProgressBar Value="94.2" Maximum="100" Height="6"/>
+                                </StackPanel>
+
+                                <StackPanel Margin="0,15,0,10">
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                                        <TextBlock Text="Quality Score" FontSize="11" Width="100"/>
+                                        <TextBlock Text="87.5%" FontSize="11" FontWeight="Bold" Foreground="#2196F3"/>
+                                    </StackPanel>
+                                    <ProgressBar Value="87.5" Maximum="100" Height="6"/>
+                                </StackPanel>
+
+                                <StackPanel Margin="0,15,0,10">
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                                        <TextBlock Text="On-Time Delivery" FontSize="11" Width="100"/>
+                                        <TextBlock Text="91.8%" FontSize="11" FontWeight="Bold" Foreground="#FF9800"/>
+                                    </StackPanel>
+                                    <ProgressBar Value="91.8" Maximum="100" Height="6"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </materialDesign:Card>
+                    </Grid>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</Page>

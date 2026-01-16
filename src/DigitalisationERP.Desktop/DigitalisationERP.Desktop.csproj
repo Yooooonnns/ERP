@@ -1,0 +1,81 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="LiveChartsCore.SkiaSharpView.WPF" Version="2.0.0-rc2" />
+    <PackageReference Include="MaterialDesignColors" Version="5.3.0" />
+    <PackageReference Include="MaterialDesignThemes" Version="5.3.0" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.0" />
+    <PackageReference Include="Resend" Version="0.2.1" />
+    <PackageReference Include="System.IO.Ports" Version="9.0.0" />
+    <PackageReference Include="System.Net.Http.Json" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DigitalisationERP.Application\DigitalisationERP.Application.csproj" />
+    <ProjectReference Include="..\DigitalisationERP.Infrastructure\DigitalisationERP.Infrastructure.csproj" />
+    <ProjectReference Include="..\DigitalisationERP.Application.Identity\DigitalisationERP.Application.Identity.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Views\LoginPage.xaml.cs" />
+    <Page Remove="Views\LoginPage.xaml" />
+    <Compile Remove="MaintenanceWindow.xaml.cs" />
+    <Page Remove="MaintenanceWindow.xaml" />
+    <Compile Remove="AdminModeWindow.xaml.cs" />
+    <Page Remove="AdminModeWindow.xaml" />
+    <Compile Remove="MaintenanceModeWindow.xaml.cs" />
+    <Page Remove="MaintenanceModeWindow.xaml" />
+    <Compile Remove="Views\AdminDashboardWindow.xaml.cs" />
+    <Page Remove="Views\AdminDashboardWindow.xaml" />
+    <Compile Remove="Views\TestWindow.xaml.cs" />
+    <Page Remove="Views\TestWindow.xaml" />
+    <Compile Remove="Views\RegisterWindow.xaml.cs" />
+    <Page Remove="Views\RegisterWindow.xaml" />
+    <Compile Remove="Views\VerifyEmailWindow.xaml.cs" />
+    <Page Remove="Views\VerifyEmailWindow.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\digitalisationerp.settings.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\iot_config.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Views\MaintenancePageAdvanced.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Update="Views\MaintenancePageAdvanced.xaml.cs">
+      <DependentUpon>MaintenancePageAdvanced.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+
+    <Page Update="Views\EditProductionLineLinksDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Update="Views\EditProductionLineLinksDialog.xaml.cs">
+      <DependentUpon>EditProductionLineLinksDialog.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+
+    <Page Update="Views\LaunchFabricationOrderDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Update="Views\LaunchFabricationOrderDialog.xaml.cs">
+      <DependentUpon>LaunchFabricationOrderDialog.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
+</Project>

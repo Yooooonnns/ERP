@@ -1,0 +1,364 @@
+<Page x:Class="DigitalisationERP.Desktop.Views.PersonalDashboardPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      Title="Mon Dashboard" Height="800" Width="1200">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Header -->
+            <StackPanel Grid.Row="0" Margin="0,0,0,20">
+                <TextBlock x:Name="WelcomeTitle" 
+                          Text="Mon Dashboard Personnel" 
+                          FontSize="28" 
+                          FontWeight="Bold"
+                          Margin="0,0,0,10"/>
+                <TextBlock x:Name="WelcomeSubtitle" 
+                          Text="Suivez vos tâches et votre planning" 
+                          FontSize="14" 
+                          Foreground="Gray"/>
+            </StackPanel>
+
+            <!-- Today's Stats -->
+            <UniformGrid Grid.Row="1" Columns="4" Margin="0,0,0,20">
+                <materialDesign:Card Margin="10" Padding="20">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <materialDesign:PackIcon Kind="ClipboardCheckOutline" 
+                                                    Width="32" 
+                                                    Height="32" 
+                                                    Foreground="#2196F3"/>
+                            <StackPanel Margin="15,0,0,0">
+                                <TextBlock Text="Mes Tâches" 
+                                          FontSize="14" 
+                                          Foreground="Gray"/>
+                                <TextBlock x:Name="MyTasksCount" 
+                                          Text="5/8" 
+                                          FontSize="28" 
+                                          FontWeight="Bold"
+                                          Foreground="#2196F3"/>
+                            </StackPanel>
+                        </StackPanel>
+                        <ProgressBar x:Name="TaskProgressBar" 
+                                    Value="62.5" 
+                                    Height="8" 
+                                    Margin="0,5,0,5"/>
+                        <TextBlock Text="Complétées aujourd'hui" 
+                                  FontSize="11" 
+                                  Foreground="Gray"/>
+                    </StackPanel>
+                </materialDesign:Card>
+
+                <materialDesign:Card Margin="10" Padding="20">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <materialDesign:PackIcon Kind="ClockOutline" 
+                                                    Width="32" 
+                                                    Height="32" 
+                                                    Foreground="#4CAF50"/>
+                            <StackPanel Margin="15,0,0,0">
+                                <TextBlock Text="Mon Shift" 
+                                          FontSize="14" 
+                                          Foreground="Gray"/>
+                                <TextBlock x:Name="CurrentShift" 
+                                          Text="07:00-15:00" 
+                                          FontSize="24" 
+                                          FontWeight="Bold"
+                                          Foreground="#4CAF50"/>
+                            </StackPanel>
+                        </StackPanel>
+                        <TextBlock x:Name="ShiftProgress" 
+                                  Text="5h30 écoulées / 8h" 
+                                  FontSize="11" 
+                                  Foreground="Gray"
+                                  Margin="0,5,0,0"/>
+                    </StackPanel>
+                </materialDesign:Card>
+
+                <materialDesign:Card Margin="10" Padding="20">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <materialDesign:PackIcon Kind="TrendingUp" 
+                                                    Width="32" 
+                                                    Height="32" 
+                                                    Foreground="#FF9800"/>
+                            <StackPanel Margin="15,0,0,0">
+                                <TextBlock Text="Performance" 
+                                          FontSize="14" 
+                                          Foreground="Gray"/>
+                                <TextBlock x:Name="PersonalPerformance" 
+                                          Text="92%" 
+                                          FontSize="28" 
+                                          FontWeight="Bold"
+                                          Foreground="#FF9800"/>
+                            </StackPanel>
+                        </StackPanel>
+                        <TextBlock Text="+5% vs semaine dernière" 
+                                  FontSize="11" 
+                                  Foreground="Green"
+                                  Margin="0,5,0,0"/>
+                    </StackPanel>
+                </materialDesign:Card>
+
+                <materialDesign:Card Margin="10" Padding="20">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <materialDesign:PackIcon Kind="MessageAlert" 
+                                                    Width="32" 
+                                                    Height="32" 
+                                                    Foreground="#9C27B0"/>
+                            <StackPanel Margin="15,0,0,0">
+                                <TextBlock Text="Messages" 
+                                          FontSize="14" 
+                                          Foreground="Gray"/>
+                                <TextBlock x:Name="UnreadMessages" 
+                                          Text="3" 
+                                          FontSize="28" 
+                                          FontWeight="Bold"
+                                          Foreground="#9C27B0"/>
+                            </StackPanel>
+                        </StackPanel>
+                        <TextBlock Text="Non lus" 
+                                  FontSize="11" 
+                                  Foreground="Gray"
+                                  Margin="0,5,0,0"/>
+                    </StackPanel>
+                </materialDesign:Card>
+            </UniformGrid>
+
+            <!-- Main Content -->
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Left: Tasks -->
+                <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                    <materialDesign:Card Padding="20" Margin="0,0,0,20">
+                        <StackPanel>
+                            <TextBlock Text="Mes Tâches du Jour" 
+                                      FontSize="18" 
+                                      FontWeight="SemiBold"
+                                      Margin="0,0,0,15"/>
+
+                            <ItemsControl x:Name="TasksListView">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <materialDesign:Card Margin="0,0,0,12" 
+                                                           Padding="15"
+                                                           Background="{Binding BackgroundColor}">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <CheckBox Grid.Column="0" 
+                                                         IsChecked="{Binding IsCompleted}"
+                                                         VerticalAlignment="Center"
+                                                         Margin="0,0,15,0"/>
+
+                                                <StackPanel Grid.Column="1">
+                                                    <TextBlock Text="{Binding Title}" 
+                                                             FontSize="15" 
+                                                             FontWeight="SemiBold"/>
+                                                    <TextBlock Text="{Binding Description}" 
+                                                             FontSize="12" 
+                                                             Foreground="Gray"
+                                                             Margin="0,4,0,0"/>
+                                                    <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                                                        <Border Background="{Binding PriorityColor}" 
+                                                               CornerRadius="3" 
+                                                               Padding="8,3"
+                                                               Margin="0,0,8,0">
+                                                            <TextBlock Text="{Binding Priority}" 
+                                                                     FontSize="10" 
+                                                                     Foreground="White"/>
+                                                        </Border>
+                                                        <materialDesign:PackIcon Kind="ClockOutline" 
+                                                                               Width="14" 
+                                                                               Height="14"
+                                                                               VerticalAlignment="Center"/>
+                                                        <TextBlock Text="{Binding TimeEstimate}" 
+                                                                 FontSize="11" 
+                                                                 Foreground="Gray"
+                                                                 Margin="5,0,0,0"
+                                                                 VerticalAlignment="Center"/>
+                                                    </StackPanel>
+                                                </StackPanel>
+
+                                                <Button Grid.Column="2" 
+                                                       Style="{StaticResource MaterialDesignIconButton}"
+                                                          ToolTip="Détails"
+                                                          Click="TaskOptions_Click">
+                                                    <materialDesign:PackIcon Kind="DotsVertical"/>
+                                                </Button>
+                                            </Grid>
+                                        </materialDesign:Card>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </materialDesign:Card>
+
+                    <!-- Performance Chart -->
+                    <materialDesign:Card Padding="20">
+                        <StackPanel>
+                            <TextBlock Text="Ma Performance (7 derniers jours)" 
+                                      FontSize="18" 
+                                      FontWeight="SemiBold"
+                                      Margin="0,0,0,15"/>
+                            <!-- Simple performance visualization -->
+                            <Grid Height="200">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <ItemsControl Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <UniformGrid Columns="7" Rows="1" Height="150" Width="500"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <Border Background="#FF9800" Margin="5" VerticalAlignment="Bottom" Height="132" ToolTip="88%"/>
+                                    <Border Background="#FF9800" Margin="5" VerticalAlignment="Bottom" Height="137" ToolTip="91%"/>
+                                    <Border Background="#FF9800" Margin="5" VerticalAlignment="Bottom" Height="134" ToolTip="89%"/>
+                                    <Border Background="#FF9800" Margin="5" VerticalAlignment="Bottom" Height="140" ToolTip="93%"/>
+                                    <Border Background="#FF9800" Margin="5" VerticalAlignment="Bottom" Height="135" ToolTip="90%"/>
+                                    <Border Background="#FF9800" Margin="5" VerticalAlignment="Bottom" Height="141" ToolTip="94%"/>
+                                    <Border Background="#4CAF50" Margin="5" VerticalAlignment="Bottom" Height="138" ToolTip="92% (Aujourd'hui)"/>
+                                </ItemsControl>
+                                <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
+                                    <TextBlock Text="Lun" Margin="15,0" FontSize="10"/>
+                                    <TextBlock Text="Mar" Margin="15,0" FontSize="10"/>
+                                    <TextBlock Text="Mer" Margin="15,0" FontSize="10"/>
+                                    <TextBlock Text="Jeu" Margin="15,0" FontSize="10"/>
+                                    <TextBlock Text="Ven" Margin="15,0" FontSize="10"/>
+                                    <TextBlock Text="Sam" Margin="15,0" FontSize="10"/>
+                                    <TextBlock Text="Dim" Margin="15,0" FontSize="10" FontWeight="Bold" Foreground="#4CAF50"/>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </materialDesign:Card>
+                </StackPanel>
+
+                <!-- Right: Schedule & Notifications -->
+                <StackPanel Grid.Column="1">
+                    <!-- My Schedule Card -->
+                    <materialDesign:Card Padding="20" Margin="0,0,0,20">
+                        <StackPanel>
+                            <TextBlock Text="Mon Planning" 
+                                      FontSize="16" 
+                                      FontWeight="SemiBold"
+                                      Margin="0,0,0,15"/>
+
+                            <Calendar x:Name="MyCalendar" 
+                                     SelectionMode="SingleDate"
+                                     Margin="0,0,0,15"/>
+
+                            <TextBlock Text="Prochains Shifts" 
+                                      FontSize="14" 
+                                      FontWeight="SemiBold"
+                                      Margin="0,0,0,10"/>
+
+                            <StackPanel x:Name="UpcomingShifts">
+                                <Border Background="#E3F2FD" 
+                                       CornerRadius="4" 
+                                       Padding="10" 
+                                       Margin="0,0,0,8">
+                                    <StackPanel>
+                                        <TextBlock Text="Demain" 
+                                                  FontSize="11" 
+                                                  Foreground="Gray"/>
+                                        <TextBlock Text="07:00 - 15:00" 
+                                                  FontSize="14" 
+                                                  FontWeight="SemiBold"
+                                                  Margin="0,2,0,0"/>
+                                        <TextBlock Text="Shift du Matin" 
+                                                  FontSize="11" 
+                                                  Foreground="Gray"/>
+                                    </StackPanel>
+                                </Border>
+
+                                <Border Background="#F3E5F5" 
+                                       CornerRadius="4" 
+                                       Padding="10" 
+                                       Margin="0,0,0,8">
+                                    <StackPanel>
+                                        <TextBlock Text="Vendredi 17 Jan" 
+                                                  FontSize="11" 
+                                                  Foreground="Gray"/>
+                                        <TextBlock Text="15:00 - 23:00" 
+                                                  FontSize="14" 
+                                                  FontWeight="SemiBold"
+                                                  Margin="0,2,0,0"/>
+                                        <TextBlock Text="Shift d'Après-midi" 
+                                                  FontSize="11" 
+                                                  Foreground="Gray"/>
+                                    </StackPanel>
+                                </Border>
+
+                                <Border Background="#FFF3E0" 
+                                       CornerRadius="4" 
+                                       Padding="10">
+                                    <StackPanel>
+                                        <TextBlock Text="Samedi 18 Jan" 
+                                                  FontSize="11" 
+                                                  Foreground="Gray"/>
+                                        <TextBlock Text="JOUR DE REPOS" 
+                                                  FontSize="14" 
+                                                  FontWeight="SemiBold"
+                                                  Foreground="#FF9800"
+                                                  Margin="0,2,0,0"/>
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+                        </StackPanel>
+                    </materialDesign:Card>
+
+                    <!-- Quick Actions Card -->
+                    <materialDesign:Card Padding="20">
+                        <StackPanel>
+                            <TextBlock Text="Actions Rapides" 
+                                      FontSize="16" 
+                                      FontWeight="SemiBold"
+                                      Margin="0,0,0,15"/>
+
+                            <Button Content="Demande Maintenance" 
+                                   Style="{StaticResource MaterialDesignRaisedButton}"
+                                   Background="#F44336"
+                                   Margin="0,0,0,10"
+                                HorizontalAlignment="Stretch"
+                                Click="RequestMaintenance_Click"/>
+
+                            <Button Content="Signaler Problème" 
+                                   Style="{StaticResource MaterialDesignOutlinedButton}"
+                                   Margin="0,0,0,10"
+                                HorizontalAlignment="Stretch"
+                                Click="ReportIssue_Click"/>
+
+                            <Button Content="Envoyer Message" 
+                                   Style="{StaticResource MaterialDesignOutlinedButton}"
+                                   Margin="0,0,0,10"
+                                HorizontalAlignment="Stretch"
+                                Click="SendMessage_Click"/>
+
+                            <Button Content="Voir Mon Horaire" 
+                                   Style="{StaticResource MaterialDesignOutlinedButton}"
+                                   HorizontalAlignment="Stretch"
+                                   Click="ViewSchedule_Click"/>
+                        </StackPanel>
+                    </materialDesign:Card>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </ScrollViewer>
+</Page>

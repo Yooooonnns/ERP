@@ -1,0 +1,14 @@
+<Window x:Class="DigitalisationERP.Desktop.Views.TestWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Test Window" Height="300" Width="400"
+        WindowStartupLocation="CenterScreen">
+    <Grid Background="White">
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBlock Text="✅ WPF is Working!" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,20"/>
+            <TextBox Width="250" Margin="0,0,0,10" Text="Username"/>
+            <PasswordBox Width="250" Margin="0,0,0,10"/>
+            <Button Content="Login" Width="150" Height="35" Margin="0,10,0,0"/>
+        </StackPanel>
+    </Grid>
+</Window>

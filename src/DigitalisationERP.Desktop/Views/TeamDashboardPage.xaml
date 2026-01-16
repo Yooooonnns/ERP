@@ -1,0 +1,411 @@
+<Page x:Class="DigitalisationERP.Desktop.Views.TeamDashboardPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      Title="Dashboard Équipe" Height="800" Width="1400">
+
+    <Page.Resources>
+        <Style x:Key="TeamCard" TargetType="materialDesign:Card">
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Padding" Value="15"/>
+            <Setter Property="UniformCornerRadius" Value="6"/>
+        </Style>
+    </Page.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Header -->
+            <StackPanel Grid.Row="0" Margin="0,0,0,20">
+                <TextBlock Text="Dashboard Équipe - Manager" 
+                          FontSize="28" 
+                          FontWeight="Bold"
+                          Margin="0,0,0,10"/>
+                <TextBlock Text="Gérez votre équipe, affectez des tâches et suivez les performances" 
+                          FontSize="14" 
+                          Foreground="Gray"/>
+            </StackPanel>
+
+            <!-- KPIs Row -->
+            <UniformGrid Grid.Row="1" Columns="4" Margin="0,0,0,20">
+                <materialDesign:Card Style="{StaticResource TeamCard}">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <materialDesign:PackIcon Kind="AccountGroup" 
+                                                    Width="28" 
+                                                    Height="28" 
+                                                    Foreground="#2196F3"/>
+                            <StackPanel Margin="12,0,0,0">
+                                <TextBlock Text="Membres d'Équipe" 
+                                          FontSize="13" 
+                                          Foreground="Gray"/>
+                                <TextBlock x:Name="TeamMembersCount" 
+                                          Text="24" 
+                                          FontSize="26" 
+                                          FontWeight="Bold"
+                                          Foreground="#2196F3"/>
+                            </StackPanel>
+                        </StackPanel>
+                        <TextBlock Text="18 actifs aujourd'hui" 
+                                  FontSize="11" 
+                                  Foreground="Green"/>
+                    </StackPanel>
+                </materialDesign:Card>
+
+                <materialDesign:Card Style="{StaticResource TeamCard}">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <materialDesign:PackIcon Kind="ClipboardCheck" 
+                                                    Width="28" 
+                                                    Height="28" 
+                                                    Foreground="#4CAF50"/>
+                            <StackPanel Margin="12,0,0,0">
+                                <TextBlock Text="Tâches en Cours" 
+                                          FontSize="13" 
+                                          Foreground="Gray"/>
+                                <TextBlock x:Name="ActiveTasksCount" 
+                                          Text="42" 
+                                          FontSize="26" 
+                                          FontWeight="Bold"
+                                          Foreground="#4CAF50"/>
+                            </StackPanel>
+                        </StackPanel>
+                        <TextBlock Text="12 à assigner" 
+                                  FontSize="11" 
+                                  Foreground="Orange"/>
+                    </StackPanel>
+                </materialDesign:Card>
+
+                <materialDesign:Card Style="{StaticResource TeamCard}">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <materialDesign:PackIcon Kind="CalendarClock" 
+                                                    Width="28" 
+                                                    Height="28" 
+                                                    Foreground="#FF9800"/>
+                            <StackPanel Margin="12,0,0,0">
+                                <TextBlock Text="Shifts Planifiés" 
+                                          FontSize="13" 
+                                          Foreground="Gray"/>
+                                <TextBlock x:Name="ScheduledShiftsCount" 
+                                          Text="18" 
+                                          FontSize="26" 
+                                          FontWeight="Bold"
+                                          Foreground="#FF9800"/>
+                            </StackPanel>
+                        </StackPanel>
+                        <TextBlock Text="Cette semaine" 
+                                  FontSize="11" 
+                                  Foreground="Gray"/>
+                    </StackPanel>
+                </materialDesign:Card>
+
+                <materialDesign:Card Style="{StaticResource TeamCard}">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <materialDesign:PackIcon Kind="ChartDonut" 
+                                                    Width="28" 
+                                                    Height="28" 
+                                                    Foreground="#9C27B0"/>
+                            <StackPanel Margin="12,0,0,0">
+                                <TextBlock Text="Performance Équipe" 
+                                          FontSize="13" 
+                                          Foreground="Gray"/>
+                                <TextBlock x:Name="TeamPerformanceScore" 
+                                          Text="85%" 
+                                          FontSize="26" 
+                                          FontWeight="Bold"
+                                          Foreground="#9C27B0"/>
+                            </StackPanel>
+                        </StackPanel>
+                        <TextBlock Text="+7% ce mois" 
+                                  FontSize="11" 
+                                  Foreground="Green"/>
+                    </StackPanel>
+                </materialDesign:Card>
+            </UniformGrid>
+
+            <!-- Main Content Grid -->
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Left Column: Team Members & Tasks -->
+                <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                    <!-- Team Members Card -->
+                    <materialDesign:Card Margin="0,0,0,20" Padding="20">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
+                                <TextBlock Text="Membres de l'Équipe" 
+                                          FontSize="18" 
+                                          FontWeight="SemiBold"
+                                          VerticalAlignment="Center"/>
+                                <Button Content="Ajouter" 
+                                       Style="{StaticResource MaterialDesignRaisedButton}"
+                                       Height="28"
+                                       Margin="15,0,0,0"
+                                        Background="#2196F3"
+                                        Click="AddMember_Click"/>
+                            </StackPanel>
+
+                            <DataGrid x:Name="TeamMembersGrid" 
+                                     Height="250"
+                                     AutoGenerateColumns="False" 
+                                     CanUserAddRows="False"
+                                     CanUserDeleteRows="False"
+                                     SelectionMode="Single"
+                                     HeadersVisibility="Column">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Nom" 
+                                                       Binding="{Binding Name}" 
+                                                       Width="*"/>
+                                    <DataGridTextColumn Header="Rôle" 
+                                                       Binding="{Binding Role}" 
+                                                       Width="140"/>
+                                    <DataGridTextColumn Header="Shift" 
+                                                       Binding="{Binding Shift}" 
+                                                       Width="100"/>
+                                    <DataGridTextColumn Header="Tâches" 
+                                                       Binding="{Binding ActiveTasks}" 
+                                                       Width="80"/>
+                                    <DataGridTemplateColumn Header="Statut" Width="100">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Border Background="{Binding StatusColor}" 
+                                                       CornerRadius="3" 
+                                                       Padding="6,2">
+                                                    <TextBlock Text="{Binding Status}" 
+                                                             FontSize="11" 
+                                                             Foreground="White"
+                                                             HorizontalAlignment="Center"/>
+                                                </Border>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </StackPanel>
+                    </materialDesign:Card>
+
+                    <!-- Tasks Assignment Card -->
+                    <materialDesign:Card Padding="20">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
+                                <TextBlock Text="Affectation des Tâches" 
+                                          FontSize="18" 
+                                          FontWeight="SemiBold"
+                                          VerticalAlignment="Center"/>
+                                <Button Content="Nouvelle Tâche" 
+                                       Style="{StaticResource MaterialDesignRaisedButton}"
+                                       Height="28"
+                                       Margin="15,0,0,0"
+                                        Background="#4CAF50"
+                                        Click="NewTask_Click"/>
+                            </StackPanel>
+
+                            <DataGrid x:Name="TasksGrid" 
+                                     Height="250"
+                                     AutoGenerateColumns="False" 
+                                     CanUserAddRows="False"
+                                     CanUserDeleteRows="False"
+                                     SelectionMode="Single"
+                                     HeadersVisibility="Column">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Tâche" 
+                                                       Binding="{Binding TaskName}" 
+                                                       Width="*"/>
+                                    <DataGridTextColumn Header="Assigné à" 
+                                                       Binding="{Binding AssignedTo}" 
+                                                       Width="140"/>
+                                    <DataGridTextColumn Header="Priorité" 
+                                                       Binding="{Binding Priority}" 
+                                                       Width="90"/>
+                                    <DataGridTextColumn Header="Échéance" 
+                                                       Binding="{Binding Deadline}" 
+                                                       Width="100"/>
+                                    <DataGridTemplateColumn Header="Statut" Width="120">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Border Background="{Binding StatusColor}" 
+                                                       CornerRadius="3" 
+                                                       Padding="6,2">
+                                                    <TextBlock Text="{Binding Status}" 
+                                                             FontSize="11" 
+                                                             Foreground="White"
+                                                             HorizontalAlignment="Center"/>
+                                                </Border>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </StackPanel>
+                    </materialDesign:Card>
+                </StackPanel>
+
+                <!-- Right Column: Quick Actions & Notifications -->
+                <StackPanel Grid.Column="1">
+                    <!-- Quick Actions Card -->
+                    <materialDesign:Card Margin="0,0,0,20" Padding="20">
+                        <StackPanel>
+                            <TextBlock Text="Actions Rapides" 
+                                      FontSize="16" 
+                                      FontWeight="SemiBold"
+                                      Margin="0,0,0,15"/>
+
+                            <Button Content="Planifier un Shift" 
+                                   Style="{StaticResource MaterialDesignOutlinedButton}"
+                                   Margin="0,0,0,10"
+                                   HorizontalAlignment="Stretch"
+                                Height="40"
+                                Click="PlanShift_Click">
+                                <Button.ContentTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <materialDesign:PackIcon Kind="CalendarPlus" 
+                                                                    Width="20" 
+                                                                    Height="20"
+                                                                    VerticalAlignment="Center"/>
+                                            <TextBlock Text="{Binding}" 
+                                                      Margin="10,0,0,0"
+                                                      VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </Button.ContentTemplate>
+                            </Button>
+
+                            <Button Content="Envoyer Message" 
+                                   Style="{StaticResource MaterialDesignOutlinedButton}"
+                                   Margin="0,0,0,10"
+                                   HorizontalAlignment="Stretch"
+                                Height="40"
+                                Click="SendMessage_Click">
+                                <Button.ContentTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <materialDesign:PackIcon Kind="EmailSend" 
+                                                                    Width="20" 
+                                                                    Height="20"
+                                                                    VerticalAlignment="Center"/>
+                                            <TextBlock Text="{Binding}" 
+                                                      Margin="10,0,0,0"
+                                                      VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </Button.ContentTemplate>
+                            </Button>
+
+                            <Button Content="Générer Rapport" 
+                                   Style="{StaticResource MaterialDesignOutlinedButton}"
+                                   HorizontalAlignment="Stretch"
+                                Height="40"
+                                Click="GenerateReport_Click">
+                                <Button.ContentTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <materialDesign:PackIcon Kind="FileChart" 
+                                                                    Width="20" 
+                                                                    Height="20"
+                                                                    VerticalAlignment="Center"/>
+                                            <TextBlock Text="{Binding}" 
+                                                      Margin="10,0,0,0"
+                                                      VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </Button.ContentTemplate>
+                            </Button>
+                        </StackPanel>
+                    </materialDesign:Card>
+
+                    <!-- Notifications Card -->
+                    <materialDesign:Card Padding="20">
+                        <StackPanel>
+                            <TextBlock Text="Notifications" 
+                                      FontSize="16" 
+                                      FontWeight="SemiBold"
+                                      Margin="0,0,0,15"/>
+
+                            <StackPanel x:Name="NotificationsPanel">
+                                <!-- Notification 1 -->
+                                <Border Background="#E3F2FD" 
+                                       CornerRadius="4" 
+                                       Padding="12" 
+                                       Margin="0,0,0,10">
+                                    <StackPanel>
+                                        <TextBlock Text="Demande de congé" 
+                                                  FontWeight="SemiBold"
+                                                  FontSize="13"/>
+                                        <TextBlock Text="Marc Dupont - 15-17 Jan" 
+                                                  FontSize="11" 
+                                                  Foreground="Gray"
+                                                  Margin="0,4,0,8"/>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button Content="Approuver" 
+                                                   Style="{StaticResource MaterialDesignFlatButton}"
+                                                   FontSize="10"
+                                                   Height="24"
+                                                   Padding="8,0"
+                                                   Foreground="#4CAF50"
+                                                   Click="ApproveLeave_Click"/>
+                                            <Button Content="Refuser" 
+                                                   Style="{StaticResource MaterialDesignFlatButton}"
+                                                   FontSize="10"
+                                                   Height="24"
+                                                   Padding="8,0"
+                                                   Foreground="#F44336"
+                                                   Click="RejectLeave_Click"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Border>
+
+                                <!-- Notification 2 -->
+                                <Border Background="#FFF3E0" 
+                                       CornerRadius="4" 
+                                       Padding="12" 
+                                       Margin="0,0,0,10">
+                                    <StackPanel>
+                                        <TextBlock Text="Tâche urgente" 
+                                                  FontWeight="SemiBold"
+                                                  FontSize="13"/>
+                                        <TextBlock Text="Maintenance POST-03 - Assign required" 
+                                                  FontSize="11" 
+                                                  Foreground="Gray"
+                                                  Margin="0,4,0,0"/>
+                                    </StackPanel>
+                                </Border>
+
+                                <!-- Notification 3 -->
+                                <Border Background="#E8F5E9" 
+                                       CornerRadius="4" 
+                                       Padding="12">
+                                    <StackPanel>
+                                        <TextBlock Text="Objectif atteint" 
+                                                  FontWeight="SemiBold"
+                                                  FontSize="13"/>
+                                        <TextBlock Text="Production quotidienne: 102%" 
+                                                  FontSize="11" 
+                                                  Foreground="Gray"
+                                                  Margin="0,4,0,0"/>
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+
+                            <Button Content="Voir tout" 
+                                   Style="{StaticResource MaterialDesignFlatButton}"
+                                   Margin="0,15,0,0"
+                                   HorizontalAlignment="Right"
+                                   Click="ViewAllNotifications_Click"/>
+                        </StackPanel>
+                    </materialDesign:Card>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </ScrollViewer>
+</Page>

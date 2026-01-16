@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Digitalisation ERP</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .login-container {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        h1 {
+            color: #667eea;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+        }
+        
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #eee;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+        
+        button:hover {
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 12px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .success {
+            background: #d4edda;
+            color: #155724;
+            padding: 12px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .loading {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h1>Connexion</h1>
+        
+        <div id="error" class="error"></div>
+        <div id="success" class="success"></div>
+        
+        <form id="login-form" onsubmit="handleLogin(event)">
+            <div class="form-group">
+                <label for="username">Nom d'utilisateur</label>
+                <input 
+                    type="text" 
+                    id="username" 
+                    name="username" 
+                    required
+                >
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Mot de passe</label>
+                <input 
+                    type="password" 
+                    id="password" 
+                    name="password" 
+                    required
+                >
+            </div>
+            
+            <button type="submit" id="login-btn">Connexion</button>
+            <div class="loading" id="loading">Connexion en cours...</div>
+        </form>
+    </div>
+    
+    <script>
+        const API_BASE = `${window.location.origin}/api`;
+        
+        async function handleLogin(event) {
+            event.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorDiv = document.getElementById('error');
+            const successDiv = document.getElementById('success');
+            const loginBtn = document.getElementById('login-btn');
+            const loading = document.getElementById('loading');
+            
+            // Reset messages
+            errorDiv.style.display = 'none';
+            successDiv.style.display = 'none';
+            
+            try {
+                loginBtn.disabled = true;
+                loading.style.display = 'block';
+                
+                const response = await fetch(`${API_BASE}/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username: username,
+                        password: password
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Identifiants invalides');
+                }
+                
+                const result = await response.json();
+                
+                if (result.accessToken) {
+                    // Store token in localStorage
+                    localStorage.setItem('authToken', result.accessToken);
+                    localStorage.setItem('user', JSON.stringify(result));
+                    
+                    successDiv.textContent = 'Connexion réussie! Redirection...';
+                    successDiv.style.display = 'block';
+                    
+                    // Redirect to dashboard page after 1 second
+                    setTimeout(() => {
+                        window.location.href = '/dashboard.html';
+                    }, 1000);
+                } else {
+                    throw new Error('Token non reçu');
+                }
+            } catch (error) {
+                errorDiv.textContent = error.message;
+                errorDiv.style.display = 'block';
+            } finally {
+                loginBtn.disabled = false;
+                loading.style.display = 'none';
+            }
+        }
+        
+        // Check if already logged in
+        if (localStorage.getItem('authToken')) {
+            window.location.href = '/dashboard.html';
+        }
+    </script>
+</body>
+</html>

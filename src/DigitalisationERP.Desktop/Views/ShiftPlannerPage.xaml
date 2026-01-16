@@ -1,0 +1,57 @@
+<Page x:Class="DigitalisationERP.Desktop.Views.ShiftPlannerPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      Title="Planning Shifts" Height="700" Width="1100">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Margin="0,0,0,12">
+            <TextBlock Text="Planning des shifts" FontSize="28" FontWeight="Bold"/>
+            <TextBlock Text="Créer/assigner des shifts (stockage local)." FontSize="14" Foreground="Gray"/>
+        </StackPanel>
+
+        <Grid Grid.Row="1" Margin="0,0,0,12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Orientation="Horizontal">
+                <Button Style="{StaticResource MaterialDesignIconButton}" Click="PrevWeek_Click">
+                    <materialDesign:PackIcon Kind="ChevronLeft"/>
+                </Button>
+                <TextBlock x:Name="WeekRangeText" Text="" FontSize="18" FontWeight="SemiBold" VerticalAlignment="Center" Margin="10,0"/>
+                <Button Style="{StaticResource MaterialDesignIconButton}" Click="NextWeek_Click">
+                    <materialDesign:PackIcon Kind="ChevronRight"/>
+                </Button>
+                <Button Content="Cette semaine" Style="{StaticResource MaterialDesignFlatButton}" Margin="15,0,0,0" Click="ThisWeek_Click"/>
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                <Button Content="Ajouter" Style="{StaticResource MaterialDesignRaisedButton}" Margin="0,0,10,0" Click="AddShift_Click"/>
+                <Button Content="Supprimer" Style="{StaticResource MaterialDesignOutlinedButton}" Click="DeleteShift_Click"/>
+            </StackPanel>
+        </Grid>
+
+        <materialDesign:Card Grid.Row="2" Padding="10">
+            <DataGrid x:Name="ShiftsGrid" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single"
+                      HeadersVisibility="Column" GridLinesVisibility="Horizontal">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Employé" Binding="{Binding EmployeeId}" Width="2*"/>
+                    <DataGridTextColumn Header="Date" Binding="{Binding Date}" Width="*"/>
+                    <DataGridTextColumn Header="Segment" Binding="{Binding Segment}" Width="*"/>
+                    <DataGridTextColumn Header="Début" Binding="{Binding StartTime}" Width="*"/>
+                    <DataGridTextColumn Header="Fin" Binding="{Binding EndTime}" Width="*"/>
+                    <DataGridTextColumn Header="Poste" Binding="{Binding Location}" Width="*"/>
+                    <DataGridTextColumn Header="Notes" Binding="{Binding Notes}" Width="2*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </materialDesign:Card>
+    </Grid>
+</Page>

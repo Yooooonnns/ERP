@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Outils Développement - DigitalisationERP</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: #0d1117;
+            color: #c9d1d9;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1f6feb 0%, #388bfd 100%);
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .header h1 {
+            color: white;
+            font-size: 28px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+        }
+
+        .btn-logout {
+            background: #dc2626;
+            color: white;
+        }
+
+        .btn-logout:hover {
+            background: #b91c1c;
+        }
+
+        .role-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            color: white;
+            font-weight: 600;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #30363d;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 12px 24px;
+            background: transparent;
+            border: none;
+            color: #8b949e;
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .tab-btn:hover {
+            color: #c9d1d9;
+        }
+
+        .tab-btn.active {
+            color: #1f6feb;
+            border-bottom-color: #1f6feb;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .panel {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .panel-title {
+            color: #1f6feb;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .console {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            max-height: 400px;
+            overflow-y: auto;
+            color: #79c0ff;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .console-line {
+            margin: 4px 0;
+            display: flex;
+            gap: 10px;
+        }
+
+        .console-time {
+            color: #6e7681;
+            white-space: nowrap;
+        }
+
+        .console-level {
+            font-weight: 600;
+            min-width: 60px;
+        }
+
+        .console-level.error {
+            color: #f85149;
+        }
+
+        .console-level.warning {
+            color: #d29922;
+        }
+
+        .console-level.info {
+            color: #79c0ff;
+        }
+
+        .console-level.success {
+            color: #3fb950;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #0d1117;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .table thead {
+            background: #161b22;
+        }
+
+        .table th {
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            color: #1f6feb;
+            border-bottom: 1px solid #30363d;
+            font-size: 13px;
+        }
+
+        .table td {
+            padding: 12px;
+            border-bottom: 1px solid #30363d;
+            font-size: 13px;
+        }
+
+        .table tbody tr:hover {
+            background: #161b22;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-ok {
+            background: rgba(63, 185, 80, 0.1);
+            color: #3fb950;
+        }
+
+        .status-error {
+            background: rgba(248, 81, 73, 0.1);
+            color: #f85149;
+        }
+
+        .status-warning {
+            background: rgba(210, 153, 34, 0.1);
+            color: #d29922;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn-control {
+            padding: 8px 16px;
+            background: #238636;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .btn-control:hover {
+            background: #2ea043;
+        }
+
+        .btn-control.danger {
+            background: #da3633;
+        }
+
+        .btn-control.danger:hover {
+            background: #f85149;
+        }
+
+        .code-block {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            padding: 15px;
+            overflow-x: auto;
+            font-size: 12px;
+            color: #79c0ff;
+        }
+
+        .github-repo {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .repo-card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .repo-card:hover {
+            border-color: #1f6feb;
+            box-shadow: 0 0 0 3px rgba(31, 111, 235, 0.1);
+        }
+
+        .repo-name {
+            font-weight: 600;
+            color: #1f6feb;
+            font-size: 16px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .repo-desc {
+            color: #8b949e;
+            font-size: 13px;
+            margin-bottom: 12px;
+        }
+
+        .repo-stats {
+            display: flex;
+            gap: 15px;
+            font-size: 12px;
+            color: #6e7681;
+        }
+
+        .repo-stat {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #8b949e;
+        }
+
+        .alert {
+            padding: 16px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+        }
+
+        .alert-warning {
+            background: rgba(210, 153, 34, 0.1);
+            color: #d29922;
+            border: 1px solid #d29922;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .tabs {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>
+                <i class="fas fa-terminal"></i>
+                Outils Développement
+            </h1>
+            <div class="header-right">
+                <span class="role-badge" id="role-badge">Chargement...</span>
+                <button class="btn btn-logout" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Quitter
+                </button>
+            </div>
+        </div>
+
+        <!-- Alerte d'accès restreint -->
+        <div class="alert alert-warning">
+            <i class="fas fa-exclamation-triangle"></i>
+            <span>Accès restreint aux développeurs et personnels IT. Vos actions sont enregistrées.</span>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('logs')">
+                <i class="fas fa-scroll"></i>
+                Logs Système
+            </button>
+            <button class="tab-btn" onclick="switchTab('database')">
+                <i class="fas fa-database"></i>
+                Base de Données
+            </button>
+            <button class="tab-btn" onclick="switchTab('github')">
+                <i class="fab fa-github"></i>
+                GitHub
+            </button>
+            <button class="tab-btn" onclick="switchTab('console')">
+                <i class="fas fa-code"></i>
+                Console API
+            </button>
+        </div>
+
+        <!-- TAB: Logs -->
+        <div id="logs" class="tab-content active">
+            <div class="panel">
+                <div class="panel-title">
+                    <i class="fas fa-file-alt"></i>
+                    Logs en Temps Réel
+                </div>
+                <div class="controls">
+                    <button class="btn-control" onclick="clearLogs()">
+                        <i class="fas fa-trash"></i> Effacer les logs
+                    </button>
+                    <button class="btn-control" onclick="exportLogs()">
+                        <i class="fas fa-download"></i> Exporter
+                    </button>
+                    <select id="log-level" style="padding: 8px; background: #238636; color: white; border: none; border-radius: 6px; cursor: pointer;">
+                        <option value="">Tous les niveaux</option>
+                        <option value="error">Erreurs</option>
+                        <option value="warning">Avertissements</option>
+                        <option value="info">Info</option>
+                    </select>
+                </div>
+                <div class="console" id="logs-container">
+                    <div class="console-line">
+                        <span class="console-time">[00:00:00]</span>
+                        <span class="console-level info">INFO</span>
+                        <span>Chargement des logs...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB: Database -->
+        <div id="database" class="tab-content">
+            <div class="panel">
+                <div class="panel-title">
+                    <i class="fas fa-database"></i>
+                    Visionneuse Base de Données
+                </div>
+                <div class="controls">
+                    <select id="table-select" style="padding: 10px; background: #161b22; color: #c9d1d9; border: 1px solid #30363d; border-radius: 6px; cursor: pointer;">
+                        <option value="">-- Sélectionner une table --</option>
+                        <option value="users">Users (Utilisateurs)</option>
+                        <option value="roles">Roles (Rôles)</option>
+                        <option value="permissions">Permissions</option>
+                        <option value="tasks">Tasks (Tâches)</option>
+                        <option value="meetings">Meetings (Réunions)</option>
+                        <option value="messages">Messages</option>
+                    </select>
+                    <button class="btn-control" onclick="loadTableData()">
+                        <i class="fas fa-sync"></i> Charger les données
+                    </button>
+                </div>
+                <div id="database-container" style="overflow-x: auto;">
+                    <div class="empty-state">
+                        <i class="fas fa-database" style="font-size: 48px; opacity: 0.5;"></i>
+                        <p>Sélectionnez une table pour afficher les données</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB: GitHub -->
+        <div id="github" class="tab-content">
+            <div class="panel">
+                <div class="panel-title">
+                    <i class="fab fa-github"></i>
+                    Repository GitHub
+                </div>
+                <div class="controls">
+                    <button class="btn-control" onclick="openGitHub()">
+                        <i class="fab fa-github"></i> Ouvrir GitHub
+                    </button>
+                    <button class="btn-control" onclick="fetchRepositoryInfo()">
+                        <i class="fas fa-sync"></i> Actualiser
+                    </button>
+                </div>
+                <div id="github-container">
+                    <div class="empty-state">
+                        <i class="fab fa-github" style="font-size: 48px; opacity: 0.5;"></i>
+                        <p>Accès direct au repository GitHub</p>
+                        <p style="margin-top: 20px;">
+                            <a href="https://github.com/Yooooonnns/ERP" target="_blank" style="color: #1f6feb; text-decoration: none; font-weight: 600;">
+                                Yooooonnns/ERP <i class="fas fa-external-link-alt"></i>
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB: Console API -->
+        <div id="console" class="tab-content">
+            <div class="panel">
+                <div class="panel-title">
+                    <i class="fas fa-terminal"></i>
+                    Console API - Exécuter des Commandes
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <input type="text" id="api-input" placeholder="Exemple: GET /api/user | POST /api/auth/login" 
+                           style="width: 100%; padding: 10px; background: #0d1117; color: #c9d1d9; border: 1px solid #30363d; border-radius: 6px; font-family: 'Courier New'; font-size: 13px;">
+                    <button class="btn-control" onclick="executeCommand()" style="margin-top: 10px;">
+                        <i class="fas fa-play"></i> Exécuter
+                    </button>
+                </div>
+                <div class="console" id="console-output">
+                    <div class="console-line">
+                        <span class="console-time">[Prêt]</span>
+                        <span class="console-level info">CONSOLE</span>
+                        <span>En attente de commande...</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-title">
+                    <i class="fas fa-book"></i>
+                    Endpoints API Disponibles
+                </div>
+                <div class="code-block">
+GET /health
+GET /api/user
+GET /api/auth/pending-users
+POST /api/auth/login
+POST /api/auth/approve-user/{userId}
+POST /api/auth/reject-user/{userId}
+GET /api/user/{userId}
+POST /api/task
+GET /api/meeting
+POST /api/message
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const authToken = urlParams.get('token');
+
+        if (!authToken) {
+            document.body.innerHTML = '<div style="text-align: center; padding: 50px; color: #f85149;">Authentification requise</div>';
+        }
+
+        async function verifyAccess() {
+            try {
+                const response = await fetch('/api/user/me', {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                const user = await response.json();
+                
+                // Vérifier que c'est S_USER, Z_MAINTENANCE ou Dev
+                const allowedRoles = ['S_USER', 'Z_MAINTENANCE'];
+                if (!user.roles || !user.roles.some(r => allowedRoles.includes(r))) {
+                    document.body.innerHTML = '<div style="text-align: center; padding: 50px; color: #f85149;">Accès refusé. Cette page est réservée aux développeurs et personnels IT.</div>';
+                    return false;
+                }
+
+                document.getElementById('role-badge').textContent = user.roles[0];
+                return true;
+            } catch (error) {
+                console.error('Erreur d\'accès:', error);
+                return false;
+            }
+        }
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById(tabName).classList.add('active');
+            event.target.closest('.tab-btn').classList.add('active');
+
+            if (tabName === 'logs') loadLogs();
+            if (tabName === 'database') loadTableSelect();
+            if (tabName === 'github') fetchRepositoryInfo();
+        }
+
+        function loadLogs() {
+            const logsContainer = document.getElementById('logs-container');
+            // Exemple de logs (en production, ce serait une vraie API)
+            const logs = [
+                { time: '2025-01-01 14:23:45', level: 'info', msg: 'API démarrée' },
+                { time: '2025-01-01 14:23:46', level: 'success', msg: 'Base de données connectée' },
+                { time: '2025-01-01 14:25:12', level: 'info', msg: 'Utilisateur Admin connecté' },
+                { time: '2025-01-01 14:26:33', level: 'warning', msg: 'Tentative de connexion échouée pour test@example.com' },
+                { time: '2025-01-01 14:27:01', level: 'error', msg: 'Erreur: Connection timeout sur le service externe' },
+            ];
+
+            logsContainer.innerHTML = logs.map(log => `
+                <div class="console-line">
+                    <span class="console-time">[${log.time}]</span>
+                    <span class="console-level ${log.level}">${log.level.toUpperCase()}</span>
+                    <span>${log.msg}</span>
+                </div>
+            `).join('');
+        }
+
+        function clearLogs() {
+            document.getElementById('logs-container').innerHTML = '<div class="console-line"><span class="console-time">[Logs effacés]</span><span class="console-level info">INFO</span><span>Les logs ont été effacés.</span></div>';
+        }
+
+        function exportLogs() {
+            alert('Export des logs en cours... (Fonction non implémentée)');
+        }
+
+        function loadTableSelect() {
+            // Remplir le select si nécessaire
+        }
+
+        function loadTableData() {
+            const tableSelect = document.getElementById('table-select').value;
+            const container = document.getElementById('database-container');
+
+            if (!tableSelect) {
+                container.innerHTML = '<div class="empty-state"><p>Sélectionnez une table</p></div>';
+                return;
+            }
+
+            // Exemple de données (en production, ce serait une vraie API)
+            const tableData = {
+                users: {
+                    headers: ['ID', 'Email', 'Nom', 'Rôle', 'Statut', 'Créé le'],
+                    rows: [
+                        ['1', 'admin@example.com', 'Admin User', 'S_USER', 'Actif', '2025-01-01'],
+                        ['2', 'user@example.com', 'Test User', 'Z_PROD', 'Actif', '2025-01-02'],
+                        ['3', 'manager@example.com', 'Manager User', 'Z_MANAGER', 'Actif', '2025-01-03'],
+                    ]
+                },
+                roles: {
+                    headers: ['ID', 'Rôle', 'Niveau', 'Permissions'],
+                    rows: [
+                        ['1', 'S_USER', '4', '15'],
+                        ['2', 'Z_MAINTENANCE', '3', '8'],
+                        ['3', 'Z_MANAGER', '2', '6'],
+                        ['4', 'Z_PROD', '1', '4'],
+                    ]
+                }
+            };
+
+            const data = tableData[tableSelect];
+            if (!data) {
+                container.innerHTML = '<div class="empty-state"><p>Pas de données</p></div>';
+                return;
+            }
+
+            const html = `
+                <table class="table">
+                    <thead>
+                        <tr>${data.headers.map(h => `<th>${h}</th>`).join('')}</tr>
+                    </thead>
+                    <tbody>
+                        ${data.rows.map(row => `<tr>${row.map(cell => `<td>${cell}</td>`).join('')}</tr>`).join('')}
+                    </tbody>
+                </table>
+            `;
+            container.innerHTML = html;
+        }
+
+        function fetchRepositoryInfo() {
+            const container = document.getElementById('github-container');
+            container.innerHTML = `
+                <div class="github-repo">
+                    <div class="repo-card">
+                        <div class="repo-name">
+                            <i class="fab fa-github"></i>
+                            Yooooonnns/ERP
+                        </div>
+                        <div class="repo-desc">Application ERP Digitalisation complète avec WPF Desktop et API ASP.NET Core</div>
+                        <div class="repo-stats">
+                            <div class="repo-stat">
+                                <i class="fas fa-star"></i>
+                                Stars
+                            </div>
+                            <div class="repo-stat">
+                                <i class="fas fa-code-branch"></i>
+                                master
+                            </div>
+                            <div class="repo-stat">
+                                <i class="fas fa-code"></i>
+                                C#
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function openGitHub() {
+            window.open('https://github.com/Yooooonnns/ERP', '_blank');
+        }
+
+        function executeCommand() {
+            const input = document.getElementById('api-input').value;
+            const output = document.getElementById('console-output');
+
+            if (!input) return;
+
+            const time = new Date().toLocaleTimeString('fr-FR');
+            output.innerHTML += `
+                <div class="console-line">
+                    <span class="console-time">[${time}]</span>
+                    <span class="console-level info">COMMAND</span>
+                    <span>${input}</span>
+                </div>
+                <div class="console-line">
+                    <span class="console-time">[${time}]</span>
+                    <span class="console-level success">EXECUTING</span>
+                    <span>Exécution de la commande...</span>
+                </div>
+            `;
+            output.scrollTop = output.scrollHeight;
+        }
+
+        function logout() {
+            if (window.opener) {
+                window.close();
+            } else {
+                window.location.href = '/';
+            }
+        }
+
+        // Vérifier l'accès au chargement
+        verifyAccess();
+        loadLogs();
+    </script>
+</body>
+</html>

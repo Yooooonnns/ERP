@@ -1,0 +1,179 @@
+{
+  "roles": {
+    "SAP_ALL": {
+      "name": "Administration (SAP ALL)",
+      "color": "#8b5cf6",
+      "level": 4,
+      "permissions": {
+        "view_all_dashboards": true,
+        "schedule_meetings": true,
+        "messaging_all_users": true,
+        "manage_users": true,
+        "manage_roles": true,
+        "view_reports": true,
+        "access_analytics": true,
+        "system_settings": true,
+        "dev_mode": false
+      },
+      "features": [
+        "Tous les Dashboards",
+        "Planifier des réunions",
+        "Messagerie (tous les contacts)",
+        "Gestion des utilisateurs",
+        "Gestion des rôles",
+        "Rapports et analyses",
+        "Paramètres système"
+      ]
+    },
+    "S_USER": {
+      "name": "Super Admin S-User",
+      "color": "#3b82f6",
+      "level": 4,
+      "permissions": {
+        "view_all_dashboards": true,
+        "schedule_meetings": true,
+        "messaging_all_users": true,
+        "manage_users": true,
+        "manage_roles": true,
+        "view_reports": true,
+        "access_analytics": true,
+        "system_settings": true,
+        "dev_mode": true,
+        "dev_console": true,
+        "view_logs": true,
+        "github_access": true
+      },
+      "features": [
+        "Tous les Dashboards",
+        "Planifier des réunions",
+        "Messagerie (tous les contacts)",
+        "Gestion complète",
+        "Mode Développement",
+        "Console & Logs",
+        "Accès GitHub",
+        "Contrôle Release/Debug"
+      ]
+    },
+    "Z_MAINTENANCE": {
+      "name": "Maintenance IT",
+      "color": "#06b6d4",
+      "level": 3,
+      "permissions": {
+        "view_all_dashboards": true,
+        "messaging_all_users": true,
+        "dev_mode": true,
+        "dev_console": true,
+        "view_logs": true,
+        "github_access": true,
+        "system_health": true
+      },
+      "features": [
+        "Dashboards système",
+        "Messagerie IT",
+        "Mode Développement",
+        "Console & Logs",
+        "Accès GitHub",
+        "Santé du système",
+        "Gestion des incidents"
+      ]
+    },
+    "Z_MANAGER": {
+      "name": "Manager",
+      "color": "#10b981",
+      "level": 2,
+      "permissions": {
+        "view_team_dashboards": true,
+        "assign_tasks": true,
+        "manage_shifts": true,
+        "schedule_team_meetings": true,
+        "messaging_team": true,
+        "view_team_reports": true,
+        "track_performance": true
+      },
+      "features": [
+        "Dashboard de l'équipe",
+        "Assigner des tâches",
+        "Gérer les shifts",
+        "Planifier des réunions d'équipe",
+        "Messagerie d'équipe",
+        "Rapports de performance",
+        "Suivi d'équipe"
+      ]
+    },
+    "Z_PROD": {
+      "name": "Opérateur Production",
+      "color": "#f59e0b",
+      "level": 1,
+      "permissions": {
+        "view_production_line": true,
+        "view_personal_dashboard": true,
+        "view_schedule": true,
+        "view_tasks": true,
+        "mark_task_complete": true,
+        "messaging_team": true,
+        "view_personal_reports": true
+      },
+      "features": [
+        "Visualiser la chaîne de production",
+        "Mes dashboards",
+        "Mon emploi du temps",
+        "Mes missions",
+        "Marquer les tâches comme finies",
+        "Messagerie d'équipe",
+        "Mes rapports"
+      ]
+    },
+    "Z_WM_CLERK": {
+      "name": "Opérateur Warehouse",
+      "color": "#ec4899",
+      "level": 1,
+      "permissions": {
+        "view_warehouse": true,
+        "view_personal_dashboard": true,
+        "view_schedule": true,
+        "view_tasks": true,
+        "mark_task_complete": true,
+        "messaging_team": true,
+        "view_personal_reports": true
+      },
+      "features": [
+        "Visualiser l'entrepôt",
+        "Mes dashboards",
+        "Mon emploi du temps",
+        "Mes missions",
+        "Marquer les tâches comme finies",
+        "Messagerie d'équipe",
+        "Mes rapports"
+      ]
+    }
+  },
+  "permissions": {
+    "view_all_dashboards": "Accès à tous les tableaux de bord",
+    "view_team_dashboards": "Accès aux dashboards de l'équipe",
+    "view_personal_dashboard": "Accès au dashboard personnel",
+    "schedule_meetings": "Planifier des réunions globales",
+    "schedule_team_meetings": "Planifier des réunions d'équipe",
+    "messaging_all_users": "Messagerie avec tous les utilisateurs",
+    "messaging_team": "Messagerie avec son équipe",
+    "manage_users": "Gérer les utilisateurs",
+    "manage_roles": "Gérer les rôles et permissions",
+    "assign_tasks": "Assigner des tâches",
+    "mark_task_complete": "Marquer les tâches comme finies",
+    "manage_shifts": "Gérer les shifts et horaires",
+    "view_production_line": "Visualiser la chaîne de production",
+    "view_warehouse": "Visualiser l'entrepôt",
+    "view_schedule": "Voir son emploi du temps",
+    "view_tasks": "Voir ses tâches",
+    "view_reports": "Voir tous les rapports",
+    "view_personal_reports": "Voir ses rapports personnels",
+    "view_team_reports": "Voir les rapports de l'équipe",
+    "access_analytics": "Accès aux analyses avancées",
+    "track_performance": "Suivre les performances",
+    "view_logs": "Voir les logs système",
+    "dev_mode": "Accès au mode développement",
+    "dev_console": "Accès à la console développement",
+    "github_access": "Accès au repository GitHub",
+    "system_health": "Santé du système",
+    "system_settings": "Paramètres système"
+  }
+}

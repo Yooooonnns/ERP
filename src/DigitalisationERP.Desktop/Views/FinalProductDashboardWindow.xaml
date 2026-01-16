@@ -1,0 +1,50 @@
+<Window x:Class="DigitalisationERP.Desktop.Views.FinalProductDashboardWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="Finished Product Dashboard" Height="620" Width="900"
+        WindowStartupLocation="CenterOwner"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{materialDesign:MaterialDesignFont}">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Margin="0,0,0,10">
+            <TextBlock x:Name="HeaderText" Text="Finished Product" Style="{StaticResource MaterialDesignHeadline5TextBlock}"/>
+            <TextBlock x:Name="SubHeaderText" Text="" Foreground="{DynamicResource MaterialDesignBodyLight}"/>
+        </StackPanel>
+
+        <Border Grid.Row="1" Background="#0F000000" CornerRadius="8" Padding="12" Margin="0,0,0,12">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Shows GR (101) history from production posting." VerticalAlignment="Center"/>
+            </StackPanel>
+        </Border>
+
+        <DataGrid Grid.Row="2"
+                  x:Name="MovementsGrid"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  CanUserAddRows="False"
+                  HeadersVisibility="Column"
+                  GridLinesVisibility="Horizontal"
+                  Background="White">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Date" Binding="{Binding postingDate}" Width="180"/>
+                <DataGridTextColumn Header="Type" Binding="{Binding movementType}" Width="80"/>
+                <DataGridTextColumn Header="Qty" Binding="{Binding quantity}" Width="90"/>
+                <DataGridTextColumn Header="UoM" Binding="{Binding unitOfMeasure}" Width="80"/>
+                <DataGridTextColumn Header="Doc" Binding="{Binding documentNumber}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,12,0,0">
+            <Button Content="CLOSE" Style="{StaticResource MaterialDesignOutlinedButton}" Click="Close_Click" Width="120"/>
+        </StackPanel>
+    </Grid>
+</Window>

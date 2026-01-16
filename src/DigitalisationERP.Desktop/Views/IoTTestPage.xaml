@@ -1,0 +1,503 @@
+<UserControl x:Class="DigitalisationERP.Desktop.Views.IoTTestPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" 
+             d:DesignHeight="900" d:DesignWidth="1400"
+             Background="#0f172a">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0" Background="#1e293b" Padding="20" BorderBrush="#334155" BorderThickness="0,0,0,1">
+            <StackPanel>
+                <TextBlock Text="🏭 Simulation OF - Suivi Fabrication (INPUT/OUTPUT)" 
+                           FontSize="24" 
+                           FontWeight="Bold" 
+                           Foreground="White"/>
+                <TextBlock Text="Lance un ordre, attend la détection sur le premier poste, puis simule le transit + TU et la consommation de stock par poste." 
+                           FontSize="12" 
+                           Foreground="#94a3b8" 
+                           Margin="0,5,0,0"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Main Content -->
+        <Grid Grid.Row="1" Margin="20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- LEFT: OF Simulator -->
+            <Border Grid.Column="0" Background="#1e293b" CornerRadius="8" BorderBrush="#334155" BorderThickness="1">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- OF Header -->
+                    <Border Grid.Row="0" Background="#2563eb" Padding="15">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="🧾" FontSize="20" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                            <TextBlock Text="Ordre de fabrication (OF)" 
+                                       FontSize="16" 
+                                       FontWeight="Bold" 
+                                       Foreground="White"
+                                       VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- OF Form -->
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                        <StackPanel Margin="20">
+                            <!-- Production flow simulator (JSON I/O) -->
+                            <Border Background="#111827" Padding="12" CornerRadius="6" BorderBrush="#1f2937" BorderThickness="1" Margin="0,25,0,0">
+                                <StackPanel>
+                                    <TextBlock Text="Simulation OF (JSON I/O)" FontSize="14" FontWeight="Bold" Foreground="White"/>
+                                    <TextBlock Text="1) Lancer l'OF  2) Simuler la détection sur le 1er poste  3) Suivre transit + TU + consommation stock." FontSize="11" Foreground="#94a3b8" Margin="0,4,0,12" TextWrapping="Wrap"/>
+
+                                    <TextBlock Text="Numéro OF" FontSize="12" FontWeight="SemiBold" Foreground="White"/>
+                                    <TextBox x:Name="OrderNumberTextBox"
+                                             Text="OF-2026-001"
+                                             Height="34"
+                                             Margin="0,4,0,10"
+                                             Background="#0f172a"
+                                             Foreground="#e2e8f0"
+                                             BorderBrush="#334155"/>
+
+                                    <Grid Margin="0,0,0,10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="10"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <StackPanel Grid.Column="0">
+                                            <TextBlock Text="Ligne" FontSize="12" FontWeight="SemiBold" Foreground="White"/>
+                                            <TextBox x:Name="LineIdTextBox"
+                                                     Text="LINE-A"
+                                                     Height="34"
+                                                     Margin="0,4,0,0"
+                                                     Background="#0f172a"
+                                                     Foreground="#e2e8f0"
+                                                     BorderBrush="#334155"/>
+                                        </StackPanel>
+
+                                        <StackPanel Grid.Column="2">
+                                            <TextBlock Text="Quantité" FontSize="12" FontWeight="SemiBold" Foreground="White"/>
+                                            <TextBox x:Name="QuantityTextBox"
+                                                     Text="5"
+                                                     Height="34"
+                                                     Margin="0,4,0,0"
+                                                     Background="#0f172a"
+                                                     Foreground="#e2e8f0"
+                                                     BorderBrush="#334155"/>
+                                        </StackPanel>
+                                    </Grid>
+
+                                    <Grid Margin="0,0,0,10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="10"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <StackPanel Grid.Column="0">
+                                            <TextBlock Text="Transit (secondes)" FontSize="12" FontWeight="SemiBold" Foreground="White"/>
+                                            <TextBox x:Name="TuSecondsTextBox"
+                                                     Text="2"
+                                                     Height="34"
+                                                     Margin="0,4,0,0"
+                                                     Background="#0f172a"
+                                                     Foreground="#e2e8f0"
+                                                     BorderBrush="#334155"/>
+                                        </StackPanel>
+
+                                        <StackPanel Grid.Column="2">
+                                            <TextBlock Text="Route (optionnel)" FontSize="12" FontWeight="SemiBold" Foreground="White"/>
+                                            <TextBox x:Name="RouteTextBox"
+                                                     Text=""
+                                                     Height="34"
+                                                     Margin="0,4,0,0"
+                                                     Background="#0f172a"
+                                                     Foreground="#e2e8f0"
+                                                     BorderBrush="#334155"/>
+                                        </StackPanel>
+                                    </Grid>
+
+                                    <TextBlock Text="Configuration postes (JSON)" FontSize="12" FontWeight="SemiBold" Foreground="White"/>
+                                    <TextBox x:Name="PostsConfigTextBox"
+                                             Text="{}{&quot;p1&quot;:{&quot;s&quot;:10,&quot;t&quot;:5000},&quot;p2&quot;:{&quot;s&quot;:15,&quot;t&quot;:7000},&quot;p3&quot;:{&quot;s&quot;:20,&quot;t&quot;:4000}}"
+                                             Height="90"
+                                             Margin="0,4,0,12"
+                                             Background="#0f172a"
+                                             Foreground="#e2e8f0"
+                                             BorderBrush="#334155"
+                                             AcceptsReturn="True"
+                                             TextWrapping="Wrap"
+                                             VerticalScrollBarVisibility="Auto"/>
+
+                                    <TextBlock Text="Produits finis (départ)" FontSize="12" FontWeight="SemiBold" Foreground="White"/>
+                                    <TextBox x:Name="FinishedStockTextBox"
+                                             Text="0"
+                                             Height="34"
+                                             Margin="0,4,0,12"
+                                             Background="#0f172a"
+                                             Foreground="#e2e8f0"
+                                             BorderBrush="#334155"/>
+
+                                    <Grid Margin="0,0,0,12">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="10"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Button x:Name="SimulateOrderButton"
+                                                Grid.Column="0"
+                                                Content="▶️ Lancer OF"
+                                                Click="SimulateOrderButton_Click"
+                                                Height="40"
+                                                Background="#06b6d4"
+                                                Foreground="White"
+                                                FontWeight="Bold"
+                                                BorderThickness="0"
+                                                Cursor="Hand"/>
+
+                                        <Button x:Name="SimulateFirstSensorButton"
+                                                Grid.Column="2"
+                                                Content="📥 Détection 1er poste"
+                                                Click="SimulateFirstSensorButton_Click"
+                                                Height="40"
+                                                Background="#10b981"
+                                                Foreground="White"
+                                                BorderThickness="0"
+                                                Cursor="Hand"/>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </ScrollViewer>
+
+                    <!-- INPUT Stats -->
+                    <Border Grid.Row="2" Background="#334155" Padding="15" BorderBrush="#475569" BorderThickness="0,1,0,0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <StackPanel Grid.Column="0" HorizontalAlignment="Center">
+                                <TextBlock x:Name="InputCountText" 
+                                           Text="0" 
+                                           FontSize="24" 
+                                           FontWeight="Bold" 
+                                           Foreground="#10b981"
+                                           HorizontalAlignment="Center"/>
+                                <TextBlock Text="INPUTS Envoyés" 
+                                           FontSize="11" 
+                                           Foreground="#94a3b8"
+                                           HorizontalAlignment="Center"/>
+                            </StackPanel>
+                            
+                            <StackPanel Grid.Column="1" HorizontalAlignment="Center">
+                                <TextBlock x:Name="WarningCountText" 
+                                           Text="0" 
+                                           FontSize="24" 
+                                           FontWeight="Bold" 
+                                           Foreground="#f59e0b"
+                                           HorizontalAlignment="Center"/>
+                                <TextBlock Text="Warnings" 
+                                           FontSize="11" 
+                                           Foreground="#94a3b8"
+                                           HorizontalAlignment="Center"/>
+                            </StackPanel>
+                            
+                            <StackPanel Grid.Column="2" HorizontalAlignment="Center">
+                                <TextBlock x:Name="CriticalCountText" 
+                                           Text="0" 
+                                           FontSize="24" 
+                                           FontWeight="Bold" 
+                                           Foreground="#ef4444"
+                                           HorizontalAlignment="Center"/>
+                                <TextBlock Text="Criticals" 
+                                           FontSize="11" 
+                                           Foreground="#94a3b8"
+                                           HorizontalAlignment="Center"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Border>
+
+            <!-- RIGHT: OUTPUT Monitor -->
+            <Border Grid.Column="2" Background="#1e293b" CornerRadius="8" BorderBrush="#334155" BorderThickness="1">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- OUTPUT Header -->
+                    <Border Grid.Row="0" Background="#3b82f6" Padding="15">
+                        <Grid>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="📤" FontSize="20" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                                <TextBlock Text="OUTPUT - Moniteur Commandes" 
+                                           FontSize="16" 
+                                           FontWeight="Bold" 
+                                           Foreground="White"
+                                           VerticalAlignment="Center"/>
+                            </StackPanel>
+                            
+                            <Button x:Name="ClearOutputButton"
+                                    Content="🗑️ Effacer"
+                                    Click="ClearOutputButton_Click"
+                                    HorizontalAlignment="Right"
+                                    Background="#1e40af"
+                                    Foreground="White"
+                                    Padding="10,5"
+                                    BorderThickness="0"
+                                    Cursor="Hand"/>
+                        </Grid>
+                    </Border>
+
+                    <!-- OUTPUT + Serial test -->
+                    <Border Grid.Row="1" Background="#0f172a" Padding="10" BorderThickness="0">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                        <!-- Quick Serial/Bluetooth TX test -->
+                        <Border Grid.Row="0" Background="#111827" Padding="12" CornerRadius="6" BorderBrush="#1f2937" BorderThickness="1" Margin="0,0,0,10">
+                            <StackPanel>
+                                <TextBlock Text="Serial/Bluetooth test (TX)" FontSize="13" FontWeight="Bold" Foreground="White"/>
+                                <TextBlock Text="Envoie une ligne sur le port COM configuré (iot_config.json)." FontSize="11" Foreground="#94a3b8" Margin="0,4,0,10" TextWrapping="Wrap"/>
+
+                                <Grid Margin="0,0,0,10">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="10"/>
+                                        <ColumnDefinition Width="160"/>
+                                        <ColumnDefinition Width="10"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="10"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="10"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Port" FontSize="12" FontWeight="SemiBold" Foreground="White" VerticalAlignment="Center"/>
+
+                                    <ComboBox x:Name="SerialPortComboBox"
+                                              Grid.Row="0" Grid.Column="2"
+                                              Height="28"
+                                              Background="#0f172a"
+                                              Foreground="#e2e8f0"
+                                              BorderBrush="#334155" />
+
+                                    <Button x:Name="RefreshPortsButton"
+                                            Grid.Row="0" Grid.Column="4"
+                                            Content="Refresh"
+                                            Click="RefreshPortsButton_Click"
+                                            Height="28"
+                                            Padding="10,0"
+                                            Background="#334155"
+                                            Foreground="White"
+                                            BorderThickness="0"
+                                            Cursor="Hand" />
+
+                                        <Button x:Name="ConnectSerialButton"
+                                                Grid.Row="0" Grid.Column="6"
+                                            Content="🔌 Connect"
+                                            Click="ConnectSerialButton_Click"
+                                            Height="28"
+                                            Padding="12,0"
+                                            Background="#0ea5e9"
+                                            Foreground="White"
+                                            BorderThickness="0"
+                                            Cursor="Hand" />
+
+                                        <TextBlock x:Name="SerialStatusText"
+                                                   Grid.Row="0" Grid.Column="8"
+                                               Text="Disconnected"
+                                               FontSize="11"
+                                               Foreground="#94a3b8"
+                                               VerticalAlignment="Center" />
+
+                                        <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="9" Orientation="Horizontal" Margin="0,8,0,0">
+                                            <TextBlock Text="Manual port" FontSize="11" Foreground="#94a3b8" VerticalAlignment="Center" />
+                                            <TextBox x:Name="ManualPortTextBox"
+                                                     Width="90"
+                                                     Height="26"
+                                                     Margin="10,0,10,0"
+                                                     Text=""
+                                                     Background="#0f172a"
+                                                     Foreground="#e2e8f0"
+                                                     BorderBrush="#334155" />
+                                            <Button x:Name="UseManualPortButton"
+                                                    Content="Use"
+                                                    Click="UseManualPortButton_Click"
+                                                    Height="26"
+                                                    Padding="10,0"
+                                                    Background="#475569"
+                                                    Foreground="White"
+                                                    BorderThickness="0"
+                                                    Cursor="Hand" />
+                                            <TextBlock Text="(ex: COM3, COM4)" FontSize="11" Foreground="#94a3b8" Margin="10,0,0,0" VerticalAlignment="Center" />
+                                        </StackPanel>
+                                </Grid>
+
+                                <TextBlock Text="Payload (une ligne)" FontSize="12" FontWeight="SemiBold" Foreground="White"/>
+                                <TextBox x:Name="SerialPayloadTextBox"
+                                         Text="{}{&quot;mat_p&quot;:1,&quot;mant&quot;:{&quot;1&quot;:&quot;stock low&quot;}}"
+                                         Height="60"
+                                         Margin="0,4,0,10"
+                                         Background="#0f172a"
+                                         Foreground="#e2e8f0"
+                                         BorderBrush="#334155"
+                                         AcceptsReturn="True"
+                                         TextWrapping="Wrap"
+                                         VerticalScrollBarVisibility="Auto"/>
+
+                                <Button x:Name="SendSerialButton"
+                                        Content="📡 Envoyer sur COM"
+                                        Click="SendSerialButton_Click"
+                                        Height="38"
+                                        Background="#8b5cf6"
+                                        Foreground="White"
+                                        FontWeight="Bold"
+                                        BorderThickness="0"
+                                        Cursor="Hand"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- OUTPUT List -->
+                        <ListBox x:Name="OutputListBox"
+                                 Grid.Row="1"
+                                 Background="#0f172a"
+                                 BorderThickness="0"
+                                 ScrollViewer.VerticalScrollBarVisibility="Auto">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Border Background="#1e293b" 
+                                        Padding="15" 
+                                        Margin="0,5"
+                                        CornerRadius="6"
+                                        BorderBrush="{Binding BorderColor}"
+                                        BorderThickness="2">
+                                    <StackPanel>
+                                        <Grid>
+                                            <TextBlock Text="{Binding Timestamp}" 
+                                                       FontSize="11" 
+                                                       Foreground="#64748b"
+                                                       HorizontalAlignment="Left"/>
+                                            <TextBlock Text="{Binding Type}" 
+                                                       FontSize="11" 
+                                                       FontWeight="Bold"
+                                                       Foreground="{Binding TypeColor}"
+                                                       HorizontalAlignment="Right"/>
+                                        </Grid>
+                                        
+                                        <TextBlock Text="{Binding Title}" 
+                                                   FontSize="14" 
+                                                   FontWeight="Bold" 
+                                                   Foreground="White"
+                                                   Margin="0,5,0,0"/>
+                                        
+                                        <TextBlock Text="{Binding Message}" 
+                                                   FontSize="12" 
+                                                   Foreground="#94a3b8"
+                                                   TextWrapping="Wrap"
+                                                   Margin="0,5,0,0"/>
+                                        
+                                        <Border Background="#0f172a" 
+                                                Padding="10" 
+                                                Margin="0,10,0,0" 
+                                                CornerRadius="4"
+                                                Visibility="{Binding PayloadVisibility}">
+                                            <TextBlock Text="{Binding Payload}" 
+                                                       FontSize="11" 
+                                                       FontFamily="Consolas"
+                                                       Foreground="#10b981"
+                                                       TextWrapping="Wrap"/>
+                                        </Border>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                        </ListBox>
+                        </Grid>
+                    </Border>
+
+                    <!-- OUTPUT Stats -->
+                    <Border Grid.Row="2" Background="#334155" Padding="15" BorderBrush="#475569" BorderThickness="0,1,0,0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <StackPanel Grid.Column="0" HorizontalAlignment="Center">
+                                <TextBlock x:Name="OutputCountText" 
+                                           Text="0" 
+                                           FontSize="24" 
+                                           FontWeight="Bold" 
+                                           Foreground="#3b82f6"
+                                           HorizontalAlignment="Center"/>
+                                <TextBlock Text="OUTPUTS Envoyés" 
+                                           FontSize="11" 
+                                           Foreground="#94a3b8"
+                                           HorizontalAlignment="Center"/>
+                            </StackPanel>
+                            
+                            <StackPanel Grid.Column="1" HorizontalAlignment="Center">
+                                <TextBlock x:Name="RobotCommandCountText" 
+                                           Text="0" 
+                                           FontSize="24" 
+                                           FontWeight="Bold" 
+                                           Foreground="#8b5cf6"
+                                           HorizontalAlignment="Center"/>
+                                <TextBlock Text="Commandes Robot" 
+                                           FontSize="11" 
+                                           Foreground="#94a3b8"
+                                           HorizontalAlignment="Center"/>
+                            </StackPanel>
+                            
+                            <StackPanel Grid.Column="2" HorizontalAlignment="Center">
+                                <TextBlock x:Name="LastOutputTimeText" 
+                                           Text="--:--:--" 
+                                           FontSize="24" 
+                                           FontWeight="Bold" 
+                                           Foreground="#94a3b8"
+                                           HorizontalAlignment="Center"/>
+                                <TextBlock Text="Dernier OUTPUT" 
+                                           FontSize="11" 
+                                           Foreground="#94a3b8"
+                                           HorizontalAlignment="Center"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

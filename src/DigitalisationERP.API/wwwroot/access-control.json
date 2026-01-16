@@ -1,0 +1,130 @@
+{
+  "webAccess": {
+    "description": "Configuration des accès aux pages web - Strictement contrôlé par rôle",
+    "pages": {
+      "suser-admin.html": {
+        "name": "Admin S-User (Super Admin)",
+        "allowedRoles": ["S_USER"],
+        "features": [
+          "Approuver/Rejeter les comptes",
+          "Gérer tous les utilisateurs",
+          "Assigner les rôles",
+          "Planifier les réunions",
+          "Messagerie avec tous",
+          "Voir tous les rapports"
+        ],
+        "restrictions": [
+          "Accès exclusif au S-User",
+          "Peut donner l'accès aux autres comptes",
+          "Contrôle complet du système"
+        ]
+      },
+      "dev-tools.html": {
+        "name": "Outils Développement",
+        "allowedRoles": ["S_USER", "Z_MAINTENANCE"],
+        "features": [
+          "Visionner les logs système",
+          "Accès à la base de données",
+          "Voir l'état du système",
+          "Accès au repository GitHub",
+          "Console API"
+        ],
+        "restrictions": [
+          "Pas de modification directe de la DB",
+          "Les actions sont enregistrées",
+          "Accès aux développeurs et IT uniquement"
+        ]
+      },
+      "dashboard.html": {
+        "name": "Dashboard Web (Deprecated)",
+        "allowedRoles": [],
+        "description": "N'utiliser que la Desktop App pour le dashboard avec restrictions de rôles"
+      }
+    }
+  },
+  "desktopDashboard": {
+    "description": "Dashboard dans l'application Desktop WPF - Restrictions par rôle",
+    "roles": {
+      "SAP_ALL": {
+        "dashboardAccess": "Tous les dashboards globaux",
+        "features": [
+          "Vue globale de toute l'entreprise",
+          "Rapports complets",
+          "Gestion des utilisateurs"
+        ]
+      },
+      "S_USER": {
+        "dashboardAccess": "Accès complet + Mode Dev",
+        "features": [
+          "Tous les dashboards",
+          "Mode développement intégré",
+          "Console et logs",
+          "Paramètres système"
+        ]
+      },
+      "Z_MANAGER": {
+        "dashboardAccess": "Dashboard de l'équipe uniquement",
+        "features": [
+          "Performance de l'équipe",
+          "Tâches de l'équipe",
+          "Shifts et horaires",
+          "Rapports d'équipe"
+        ],
+        "restrictions": [
+          "Pas d'accès aux autres départements",
+          "Pas de mode développement",
+          "Données limitées à son équipe"
+        ]
+      },
+      "Z_PROD": {
+        "dashboardAccess": "Dashboard personnel + chaîne de production",
+        "features": [
+          "Chaîne de production en direct",
+          "Mon dashboard personnel",
+          "Mes tâches",
+          "Mon horaire"
+        ],
+        "restrictions": [
+          "Pas d'accès à la gestion",
+          "Lecture seule sur les dashboards",
+          "Pas d'accès aux autres utilisateurs"
+        ]
+      },
+      "Z_WM_CLERK": {
+        "dashboardAccess": "Dashboard personnel + entrepôt",
+        "features": [
+          "Vue de l'entrepôt",
+          "Mon dashboard personnel",
+          "Mes tâches",
+          "Mon horaire"
+        ],
+        "restrictions": [
+          "Pas d'accès à la gestion",
+          "Lecture seule sur les dashboards",
+          "Pas d'accès aux autres utilisateurs"
+        ]
+      }
+    }
+  },
+  "securityRules": {
+    "webPages": [
+      "Seuls S_USER, Z_MAINTENANCE et Dev peuvent accéder aux pages web",
+      "Chaque accès est loggé avec timestamp et action",
+      "Les tokens JWT doivent être valides",
+      "Expiration des sessions: 30 minutes"
+    ],
+    "desktopApp": [
+      "Les dashboards sont filtrés selon le rôle de l'utilisateur",
+      "Les actions sont limitées par rôle",
+      "Les opérateurs ne peuvent que voir et marquer complété",
+      "Les managers peuvent assigner et gérer leur équipe",
+      "Les admins ont accès à tout"
+    ],
+    "database": [
+      "Les logs de Dev/Maintenance IT sont enregistrés",
+      "Pas de modification directe possible",
+      "Accès lecture seule pour la vérification",
+      "Audit trail pour toutes les actions"
+    ]
+  }
+}

@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S-User - Validation des Comptes</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f1419 0%, #1a1f2e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-left h1 {
+            color: white;
+            font-size: 28px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-left p {
+            color: rgba(255,255,255,0.8);
+            font-size: 14px;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-back {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .btn-back:hover {
+            background: rgba(255,255,255,0.3);
+            border-color: rgba(255,255,255,0.5);
+        }
+
+        .btn-logout {
+            background: #dc2626;
+            color: white;
+        }
+
+        .btn-logout:hover {
+            background: #b91c1c;
+        }
+
+        /* Loading & Error */
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: #9ca3af;
+        }
+
+        .loading i {
+            font-size: 48px;
+            color: #3b82f6;
+            margin-bottom: 20px;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .auth-error {
+            background: #7f1d1d;
+            color: #fca5a5;
+            padding: 16px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border-left: 4px solid #dc2626;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .auth-error i {
+            font-size: 20px;
+        }
+
+        .empty-state {
+            background: #1f2937;
+            padding: 60px 20px;
+            text-align: center;
+            border-radius: 8px;
+            color: #9ca3af;
+        }
+
+        .empty-state i {
+            font-size: 64px;
+            color: #4b5563;
+            margin-bottom: 20px;
+        }
+
+        /* Table */
+        .table-container {
+            background: #1f2937;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: #111827;
+            border-bottom: 2px solid #374151;
+        }
+
+        thead th {
+            padding: 16px;
+            text-align: left;
+            font-weight: 600;
+            color: #9ca3af;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid #374151;
+            transition: background 0.2s ease;
+        }
+
+        tbody tr:hover {
+            background: #374151;
+        }
+
+        tbody td {
+            padding: 16px;
+            color: #e0e0e0;
+        }
+
+        .user-name {
+            font-weight: 500;
+        }
+
+        .user-email {
+            color: #9ca3af;
+            font-size: 13px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-pending {
+            background: #b45309;
+            color: #fef3c7;
+        }
+
+        .status-active {
+            background: #047857;
+            color: #d1fae5;
+        }
+
+        /* Actions */
+        .actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .approve-btn {
+            background: #059669;
+            color: white;
+        }
+
+        .approve-btn:hover {
+            background: #047857;
+        }
+
+        .reject-btn {
+            background: #7f1d1d;
+            color: #fca5a5;
+        }
+
+        .reject-btn:hover {
+            background: #b91c1c;
+        }
+
+        /* Stats */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: #1f2937;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #3b82f6;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .stat-label {
+            color: #9ca3af;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            color: white;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .stat-card.pending {
+            border-left-color: #f59e0b;
+        }
+
+        .stat-card.active {
+            border-left-color: #10b981;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-left">
+                <h1>
+                    <i class="fas fa-user-check"></i>
+                    Validation des Comptes
+                </h1>
+                <p>Approuver ou rejeter les demandes d'inscription en attente</p>
+            </div>
+            <div class="header-right">
+                <button class="btn btn-back" onclick="loadPendingUsers()" style="background: #3b82f6;">
+                    <i class="fas fa-sync-alt"></i>
+                    Rafraîchir
+                </button>
+                <button class="btn btn-back" onclick="goBack()">
+                    <i class="fas fa-arrow-left"></i>
+                    Retour
+                </button>
+                <button class="btn btn-logout" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Déconnexion
+                </button>
+            </div>
+        </div>
+
+        <!-- Error Message -->
+        <div id="auth-message"></div>
+
+        <!-- Info Message -->
+        <div id="info-message" style="display: none; background: #10b981; color: white; padding: 15px; border-radius: 6px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
+            <i class="fas fa-info-circle"></i>
+            <span>Utilisez le bouton "Retour" pour revenir à l'application principale</span>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats" id="stats-container" style="display: none;">
+            <div class="stat-card pending">
+                <div class="stat-label">En Attente</div>
+                <div class="stat-value" id="pending-count">0</div>
+            </div>
+            <div class="stat-card active">
+                <div class="stat-label">Total Demandes</div>
+                <div class="stat-value" id="total-count">0</div>
+            </div>
+        </div>
+
+        <!-- Loading -->
+        <div id="loading" class="loading" style="display: none;">
+            <i class="fas fa-spinner"></i>
+            <p>Chargement des demandes...</p>
+        </div>
+
+        <!-- Table -->
+        <div class="table-container" id="users-table" style="display: none;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Utilisateur</th>
+                        <th>Email</th>
+                        <th>Statut</th>
+                        <th>Date d'Inscription</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="users-tbody">
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Empty State -->
+        <div id="empty-state" class="empty-state" style="display: none;">
+            <i class="fas fa-inbox"></i>
+            <p>Aucune demande en attente</p>
+        </div>
+    </div>
+
+    <script>
+        // Get token from URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const authToken = urlParams.get('token');
+
+        function checkAuth() {
+            if (!authToken) {
+                showAuthError('<i class="fas fa-lock"></i> Authentification requise. Fermez et relancez l\'application.');
+                return false;
+            }
+            // Show info message
+            document.getElementById('info-message').style.display = 'flex';
+            return true;
+        }
+
+        async function loadPendingUsers() {
+            if (!checkAuth()) return;
+
+            document.getElementById('loading').style.display = 'block';
+            
+            try {
+                const response = await fetch(`/api/auth/pending-users-public?token=${encodeURIComponent(authToken)}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                document.getElementById('loading').style.display = 'none';
+
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        showAuthError('<i class="fas fa-exclamation-circle"></i> Session expirée. Veuillez fermer et vous reconnecter.');
+                    } else if (response.status === 404) {
+                        showAuthError('<i class="fas fa-search"></i> Endpoint non trouvé.');
+                    } else {
+                        throw new Error(`Erreur ${response.status}`);
+                    }
+                    return;
+                }
+
+                let users = await response.json();
+                
+                // Handle both { data: [...] } and [...] formats
+                if (users && users.data) {
+                    users = users.data;
+                }
+                
+                if (!users || users.length === 0) {
+                    document.getElementById('empty-state').style.display = 'block';
+                    document.getElementById('stats-container').style.display = 'grid';
+                    document.getElementById('pending-count').textContent = '0';
+                    document.getElementById('total-count').textContent = '0';
+                    return;
+                }
+
+                displayUsers(users);
+            } catch (error) {
+                document.getElementById('loading').style.display = 'none';
+                showAuthError(`<i class="fas fa-exclamation-triangle"></i> ${error.message}`);
+                console.error('Erreur:', error);
+            }
+        }
+
+        function displayUsers(users) {
+            const tbody = document.getElementById('users-tbody');
+            tbody.innerHTML = '';
+
+            users.forEach(user => {
+                const fullName = `${user.firstName || ''} ${user.lastName || ''}`.trim() || 'N/A';
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>
+                        <div class="user-name">${fullName}</div>
+                    </td>
+                    <td>
+                        <div class="user-email">${user.email || 'N/A'}</div>
+                    </td>
+                    <td>
+                        <span class="status-badge status-pending">
+                            <i class="fas fa-hourglass-half"></i> En attente
+                        </span>
+                    </td>
+                    <td>
+                        ${new Date(user.createdAt || new Date()).toLocaleDateString('fr-FR', {
+                            year: 'numeric',
+                            month: '2-digit',
+                            day: '2-digit',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                        })}
+                    </td>
+                    <td>
+                        <div class="actions">
+                            <button class="action-btn approve-btn" onclick="approveUser('${user.id}', '${user.email}')">
+                                <i class="fas fa-check"></i> Approuver
+                            </button>
+                            <button class="action-btn reject-btn" onclick="rejectUser('${user.id}', '${user.email}')">
+                                <i class="fas fa-times"></i> Rejeter
+                            </button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+            
+            // 'table-container' is not a valid CSS display value; use 'block' to reveal the container
+            document.getElementById('users-table').style.display = 'block';
+            document.getElementById('stats-container').style.display = 'grid';
+            document.getElementById('pending-count').textContent = users.length;
+            document.getElementById('total-count').textContent = users.length;
+        }
+
+        function showAuthError(message) {
+            const authDiv = document.getElementById('auth-message');
+            authDiv.innerHTML = `<div class="auth-error">${message}</div>`;
+            authDiv.style.display = 'block';
+        }
+
+        function goBack() {
+            // Try different methods to go back
+            if (window.opener) {
+                // If opened as popup, close the popup
+                window.close();
+            } else if (window.history.length > 1) {
+                // If in browser history, go back
+                window.history.back();
+            } else {
+                // Fallback: navigate to home or close
+                if (confirm('Fermer la fenêtre?')) {
+                    window.close();
+                }
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('authToken');
+            showAuthError('<i class="fas fa-check-circle"></i> Déconnecté avec succès. Redirection...');
+            setTimeout(() => {
+                // Try to return to the main app
+                if (window.opener) {
+                    window.close();
+                } else {
+                    window.location.href = '/';
+                }
+            }, 1500);
+        }
+
+        async function approveUser(userId, email) {
+            const message = prompt('Message personnalisé (optionnel):', 'Votre compte a été approuvé. Vous pouvez maintenant vous connecter.');
+            if (message === null) return; // User cancelled
+
+            // Disable button during request
+            event.target.disabled = true;
+            event.target.textContent = '⏳ Traitement...';
+
+            try {
+                const response = await fetch(`/api/auth/approve-user-public/${userId}?token=${encodeURIComponent(authToken)}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ message: message })
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    showSuccessMessage(`✓ Compte approuvé! Email envoyé à ${email}`);
+                    setTimeout(() => loadPendingUsers(), 1500);
+                } else {
+                    const error = await response.json();
+                    showErrorMessage(`✗ Erreur: ${error.error || 'Approbation échouée'}`);
+                    event.target.disabled = false;
+                    event.target.textContent = '✓ Approuver';
+                }
+            } catch (error) {
+                showErrorMessage(`✗ Erreur: ${error.message}`);
+                event.target.disabled = false;
+                event.target.textContent = '✓ Approuver';
+            }
+        }
+
+        async function rejectUser(userId, email) {
+            const reason = prompt('Raison du rejet (optionnel):', 'Votre demande ne répond pas à nos critères.');
+            if (reason === null) return; // User cancelled
+
+            // Disable button during request
+            event.target.disabled = true;
+            event.target.textContent = '⏳ Traitement...';
+
+            try {
+                const response = await fetch(`/api/auth/reject-user-public/${userId}?token=${encodeURIComponent(authToken)}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ reason: reason })
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    showSuccessMessage(`✓ Demande rejetée. Email envoyé à ${email}`);
+                    setTimeout(() => loadPendingUsers(), 1500);
+                } else {
+                    const error = await response.json();
+                    showErrorMessage(`✗ Erreur: ${error.error || 'Rejet échoué'}`);
+                    event.target.disabled = false;
+                    event.target.textContent = '✗ Rejeter';
+                }
+            } catch (error) {
+                showErrorMessage(`✗ Erreur: ${error.message}`);
+                event.target.disabled = false;
+                event.target.textContent = '✗ Rejeter';
+            }
+        }
+
+        function showSuccessMessage(message) {
+            const authDiv = document.getElementById('auth-message');
+            authDiv.innerHTML = `<div style="background: #10b981; color: white; padding: 16px; border-radius: 6px; margin-bottom: 20px; border-left: 4px solid #059669; display: flex; align-items: center; gap: 12px;"><i class="fas fa-check-circle"></i> ${message}</div>`;
+            authDiv.style.display = 'block';
+        }
+
+        function showErrorMessage(message) {
+            const authDiv = document.getElementById('auth-message');
+            authDiv.innerHTML = `<div class="auth-error">${message}</div>`;
+            authDiv.style.display = 'block';
+        }
+
+        // Load users on page load
+        loadPendingUsers();
+    </script>
+</body>
+</html>

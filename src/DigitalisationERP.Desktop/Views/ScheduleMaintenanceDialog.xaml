@@ -1,0 +1,104 @@
+<Window x:Class="DigitalisationERP.Desktop.Views.ScheduleMaintenanceDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="Schedule Maintenance" Height="550" Width="520"
+        WindowStartupLocation="CenterOwner"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{materialDesign:MaterialDesignFont}">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <TextBlock Grid.Row="0" Text="Schedule Maintenance Task" 
+                   Style="{StaticResource MaterialDesignHeadline5TextBlock}"
+                   Margin="0,0,0,20"/>
+
+        <!-- Form -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <TextBox x:Name="StationNameTextBox"
+                         materialDesign:HintAssist.Hint="Station/Post Name"
+                         Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                         Margin="0,0,0,15"/>
+
+                <ComboBox x:Name="TaskTypeComboBox"
+                          materialDesign:HintAssist.Hint="Maintenance Type"
+                          Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                          Margin="0,0,0,15">
+                    <ComboBoxItem Content="Preventive" IsSelected="True"/>
+                    <ComboBoxItem Content="Corrective"/>
+                    <ComboBoxItem Content="Predictive"/>
+                    <ComboBoxItem Content="Inspection"/>
+                    <ComboBoxItem Content="Calibration"/>
+                    <ComboBoxItem Content="Lubrication"/>
+                    <ComboBoxItem Content="Replacement"/>
+                    <ComboBoxItem Content="Cleaning"/>
+                </ComboBox>
+
+                <ComboBox x:Name="PriorityComboBox"
+                          materialDesign:HintAssist.Hint="Priority"
+                          Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                          Margin="0,0,0,15">
+                    <ComboBoxItem Content="Low"/>
+                    <ComboBoxItem Content="Medium" IsSelected="True"/>
+                    <ComboBoxItem Content="High"/>
+                    <ComboBoxItem Content="Critical"/>
+                </ComboBox>
+
+                <DatePicker x:Name="ScheduledDatePicker"
+                            materialDesign:HintAssist.Hint="Scheduled Date"
+                            Style="{StaticResource MaterialDesignOutlinedDatePicker}"
+                            Margin="0,0,0,15"/>
+
+                <materialDesign:TimePicker x:Name="ScheduledTimePicker"
+                                          materialDesign:HintAssist.Hint="Scheduled Time"
+                                          Style="{StaticResource MaterialDesignOutlinedTimePicker}"
+                                          Margin="0,0,0,15"/>
+
+                <TextBox x:Name="EstimatedDurationTextBox"
+                         materialDesign:HintAssist.Hint="Estimated Duration (hours)"
+                         Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                         Margin="0,0,0,15"
+                         PreviewTextInput="NumberValidation_PreviewTextInput"/>
+
+                <TextBox x:Name="TechnicianTextBox"
+                         materialDesign:HintAssist.Hint="Assigned Technician"
+                         Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                         Margin="0,0,0,15"/>
+
+                <TextBox x:Name="DescriptionTextBox"
+                         materialDesign:HintAssist.Hint="Description / Notes"
+                         Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                         AcceptsReturn="True"
+                         TextWrapping="Wrap"
+                         MinLines="3"
+                         MaxLines="5"
+                         Margin="0,0,0,15"/>
+
+                <CheckBox x:Name="NotifyCheckBox"
+                          Content="Send notification to technician"
+                          IsChecked="True"
+                          Margin="0,0,0,10"/>
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Buttons -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+            <Button Content="CANCEL" 
+                    Style="{StaticResource MaterialDesignOutlinedButton}"
+                    Click="Cancel_Click"
+                    Width="100"
+                    Margin="0,0,10,0"/>
+            <Button Content="SCHEDULE" 
+                    Style="{StaticResource MaterialDesignRaisedButton}"
+                    Click="Schedule_Click"
+                    Width="120"/>
+        </StackPanel>
+    </Grid>
+</Window>

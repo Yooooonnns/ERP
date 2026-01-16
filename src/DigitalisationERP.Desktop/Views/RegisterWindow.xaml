@@ -1,0 +1,112 @@
+<Window x:Class="DigitalisationERP.Desktop.Views.RegisterWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="Register - Digitalisation ERP" 
+        Height="700" 
+        Width="500"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Background="{DynamicResource MaterialDesignPaper}"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        FontFamily="{DynamicResource MaterialDesignFont}">
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <materialDesign:ColorZone Grid.Row="0" 
+                                  Mode="PrimaryMid" 
+                                  Padding="16"
+                                  materialDesign:ElevationAssist.Elevation="Dp4">
+            <TextBlock Text="Create Account" 
+                      FontSize="20" 
+                      FontWeight="Bold"
+                      VerticalAlignment="Center"/>
+        </materialDesign:ColorZone>
+
+        <!-- Form -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="40,30,40,30" MaxWidth="400">
+
+                <!-- Username -->
+                <TextBox materialDesign:HintAssist.Hint="Username *"
+                        Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                        Margin="0,0,0,15"
+                        Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <!-- Email -->
+                <TextBox materialDesign:HintAssist.Hint="Email *"
+                        Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                        Margin="0,0,0,15"
+                        Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <!-- Full Name -->
+                <TextBox materialDesign:HintAssist.Hint="Full Name"
+                        Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                        Margin="0,0,0,15"
+                        Text="{Binding FullName, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <!-- Phone Number -->
+                <TextBox materialDesign:HintAssist.Hint="Phone Number"
+                        Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                        Margin="0,0,0,15"
+                        Text="{Binding PhoneNumber, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <!-- Department -->
+                <TextBox materialDesign:HintAssist.Hint="Department"
+                        Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                        Margin="0,0,0,15"
+                        Text="{Binding Department, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <!-- Password -->
+                <PasswordBox x:Name="PasswordBox"
+                            materialDesign:HintAssist.Hint="Password *"
+                            Style="{StaticResource MaterialDesignOutlinedPasswordBox}"
+                            Margin="0,0,0,15"
+                            PasswordChanged="PasswordBox_PasswordChanged"/>
+
+                <!-- Confirm Password -->
+                <PasswordBox x:Name="ConfirmPasswordBox"
+                            materialDesign:HintAssist.Hint="Confirm Password *"
+                            Style="{StaticResource MaterialDesignOutlinedPasswordBox}"
+                            Margin="0,0,0,15"
+                            PasswordChanged="ConfirmPasswordBox_PasswordChanged"/>
+
+                <!-- Message -->
+                <materialDesign:Card Padding="10" 
+                                    Margin="0,0,0,15"
+                                    Background="{Binding IsSuccess, Converter={StaticResource SuccessBackgroundConverter}}"
+                                    Visibility="{Binding Message, Converter={StaticResource StringToVisibilityConverter}}">
+                    <TextBlock Text="{Binding Message}"
+                              TextWrapping="Wrap"
+                              Foreground="{Binding IsSuccess, Converter={StaticResource SuccessForegroundConverter}}"/>
+                </materialDesign:Card>
+
+                <!-- Register Button -->
+                <Button Command="{Binding RegisterCommand}"
+                       Style="{StaticResource MaterialDesignRaisedButton}"
+                       Height="45"
+                       Margin="0,10,0,15"
+                       Content="CREATE ACCOUNT"
+                       IsEnabled="{Binding IsLoading, Converter={StaticResource InverseBooleanConverter}}"/>
+
+                <!-- Loading -->
+                <ProgressBar IsIndeterminate="True"
+                            Height="4"
+                            Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+                <!-- Close Button -->
+                <Button Content="CLOSE"
+                       Style="{StaticResource MaterialDesignFlatButton}"
+                       HorizontalAlignment="Center"
+                       Margin="0,10,0,0"
+                       Click="CloseButton_Click"/>
+
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Window>

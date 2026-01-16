@@ -1,0 +1,142 @@
+<Window x:Class="DigitalisationERP.Desktop.MaintenanceWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Digital ERP - Maintenance IT" Height="700" Width="1200"
+        WindowStartupLocation="CenterScreen"
+        Background="#FFFFFF"
+        WindowStyle="SingleBorderWindow">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Menu Latéral -->
+        <Border Grid.Column="0" Background="#2C3E50" BorderBrush="#34495E" BorderThickness="0,0,1,0">
+            <StackPanel Margin="0">
+                <!-- Header -->
+                <Border Background="#1A252F" Padding="15,20">
+                    <StackPanel>
+                        <TextBlock Text="MAINTENANCE IT" FontSize="13" FontWeight="Bold" Foreground="White"/>
+                        <TextBlock Text="dev mode" FontSize="10" Foreground="#95A5A6" Margin="0,5,0,0"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Menu Items -->
+                <StackPanel Margin="0,20,0,0">
+                    <Button x:Name="DashboardBtn" Content="📊 Dashboard" Height="45" Background="Transparent" Foreground="White" FontSize="12"
+                            Click="DashboardBtn_Click" Cursor="Hand" BorderThickness="0" HorizontalContentAlignment="Left" Padding="20,0"/>
+                    <Button Content="🔧 Configuration Système" Height="45" Background="Transparent" Foreground="White" FontSize="12"
+                            Cursor="Hand" BorderThickness="0" HorizontalContentAlignment="Left" Padding="20,0"/>
+                    <Button Content="📊 Logs &amp; Monitoring" Height="45" Background="Transparent" Foreground="White" FontSize="12"
+                            Cursor="Hand" BorderThickness="0" HorizontalContentAlignment="Left" Padding="20,0"/>
+                    <Button Content="🗄️ Base de Données" Height="45" Background="Transparent" Foreground="White" FontSize="12"
+                            Cursor="Hand" BorderThickness="0" HorizontalContentAlignment="Left" Padding="20,0"/>
+                    <Button Content="🔐 Sécurité &amp; Permissions" Height="45" Background="Transparent" Foreground="White" FontSize="12"
+                            Cursor="Hand" BorderThickness="0" HorizontalContentAlignment="Left" Padding="20,0"/>
+                    <Button Content="🚀 Déploiement &amp; Versions" Height="45" Background="Transparent" Foreground="White" FontSize="12"
+                            Cursor="Hand" BorderThickness="0" HorizontalContentAlignment="Left" Padding="20,0"/>
+                    <Button Content="📈 Performance &amp; Cache" Height="45" Background="Transparent" Foreground="White" FontSize="12"
+                            Cursor="Hand" BorderThickness="0" HorizontalContentAlignment="Left" Padding="20,0"/>
+                    <Button Content="🔄 Backups &amp; Récupération" Height="45" Background="Transparent" Foreground="White" FontSize="12"
+                            Cursor="Hand" BorderThickness="0" HorizontalContentAlignment="Left" Padding="20,0"/>
+                </StackPanel>
+
+                <!-- Spacer -->
+                <StackPanel VerticalAlignment="Bottom" Margin="0,20,0,20">
+                    <Button Content="🚪 Quitter" Height="45" Background="#E74C3C" Foreground="White" FontSize="12"
+                            Click="ExitBtn_Click" Cursor="Hand" BorderThickness="0" HorizontalContentAlignment="Center" FontWeight="SemiBold"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <!-- Contenu Principal -->
+        <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="30">
+                <!-- En-tête -->
+                <StackPanel Margin="0,0,0,30">
+                    <TextBlock Text="Tableau de Bord Maintenance" FontSize="32" FontWeight="Bold" Foreground="#1A1A1A"/>
+                    <TextBlock Text="Surveiller et gérer la santé de l'application" FontSize="13" Foreground="#666666" Margin="0,8,0,0"/>
+                </StackPanel>
+
+                <!-- Alertes -->
+                <Border Background="#FFF3CD" BorderBrush="#FFE69C" BorderThickness="1" CornerRadius="5" Padding="15" Margin="0,0,0,20">
+                    <StackPanel>
+                        <TextBlock Text="⚠️ Alertes Système" FontSize="13" FontWeight="Bold" Foreground="#856404"/>
+                        <TextBlock Text="• Espace disque: 85% utilisé (Action requise)" FontSize="11" Foreground="#856404" Margin="0,5,0,0"/>
+                        <TextBlock Text="• Dernière sauvegarde: Il y a 2 jours" FontSize="11" Foreground="#856404"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Statistiques -->
+                <Grid Height="100" Margin="0,0,0,20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Border Grid.Column="0" Background="#E8F4F8" BorderBrush="#B2DFDB" BorderThickness="1" CornerRadius="5" Padding="15">
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="99.8%" FontSize="22" FontWeight="Bold" Foreground="#0066CC"/>
+                            <TextBlock Text="Disponibilité" FontSize="11" Foreground="#666666" Margin="0,5,0,0"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Grid.Column="1" Background="#E8F5E9" BorderBrush="#C8E6C9" BorderThickness="1" CornerRadius="5" Padding="15" Margin="10,0,0,0">
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="42ms" FontSize="22" FontWeight="Bold" Foreground="#27AE60"/>
+                            <TextBlock Text="Temps Réponse API" FontSize="11" Foreground="#666666" Margin="0,5,0,0"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Grid.Column="2" Background="#FCE4EC" BorderBrush="#F8BBD0" BorderThickness="1" CornerRadius="5" Padding="15" Margin="10,0,0,0">
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="4.2GB" FontSize="22" FontWeight="Bold" Foreground="#E91E63"/>
+                            <TextBlock Text="RAM Utilisée" FontSize="11" Foreground="#666666" Margin="0,5,0,0"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Grid.Column="3" Background="#FFF9C4" BorderBrush="#FFE082" BorderThickness="1" CornerRadius="5" Padding="15" Margin="10,0,0,0">
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="1,234" FontSize="22" FontWeight="Bold" Foreground="#F39C12"/>
+                            <TextBlock Text="Utilisateurs Connectés" FontSize="11" Foreground="#666666" Margin="0,5,0,0"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+
+                <!-- Actions Rapides -->
+                <TextBlock Text="Actions Rapides" FontSize="14" FontWeight="Bold" Margin="0,0,0,10"/>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
+                    <Button Content="🔄 Redémarrer l'API" Height="40" Padding="15,0" Background="#0066CC" Foreground="White" FontWeight="SemiBold" Cursor="Hand" Margin="0,0,10,0"/>
+                    <Button Content="💾 Forcer une Sauvegarde" Height="40" Padding="15,0" Background="#27AE60" Foreground="White" FontWeight="SemiBold" Cursor="Hand" Margin="0,0,10,0"/>
+                    <Button Content="🧹 Nettoyer le Cache" Height="40" Padding="15,0" Background="#3498DB" Foreground="White" FontWeight="SemiBold" Cursor="Hand" Margin="0,0,10,0"/>
+                    <Button Content="📝 Voir les Logs" Height="40" Padding="15,0" Background="#9B59B6" Foreground="White" FontWeight="SemiBold" Cursor="Hand"/>
+                </StackPanel>
+
+                <!-- Logs en Temps Réel -->
+                <TextBlock Text="Logs en Temps Réel" FontSize="14" FontWeight="Bold" Margin="0,0,0,10"/>
+                <ListBox Height="200" Background="#F5F5F5" BorderBrush="#DDDDDD" BorderThickness="1" FontFamily="Courier New" FontSize="10">
+                    <ListBoxItem Content="[2025-12-26 14:45:32] INFO - Application démarrée avec succès" Foreground="#27AE60"/>
+                    <ListBoxItem Content="[2025-12-26 14:45:35] INFO - Base de données connectée (5.2ms)" Foreground="#27AE60"/>
+                    <ListBoxItem Content="[2025-12-26 14:46:10] WARN - Requête lente détectée (Query: GetUsers, 458ms)" Foreground="#F39C12"/>
+                    <ListBoxItem Content="[2025-12-26 14:47:22] INFO - Utilisateur admin connecté" Foreground="#27AE60"/>
+                    <ListBoxItem Content="[2025-12-26 14:48:45] INFO - Rapport d'activité généré" Foreground="#27AE60"/>
+                    <ListBoxItem Content="[2025-12-26 14:49:10] WARN - Espace disque bas: 85% utilisé" Foreground="#F39C12"/>
+                </ListBox>
+
+                <!-- Info Version -->
+                <Border Margin="0,20,0,0" Padding="15" Background="#F8FAFC" BorderBrush="#DDDDDD" BorderThickness="1" CornerRadius="5">
+                    <StackPanel>
+                        <TextBlock Text="Information Système" FontSize="12" FontWeight="Bold" Margin="0,0,0,10"/>
+                        <TextBlock Text="Version: 1.0.0 (Build 2025.12.26)" FontSize="11" Foreground="#333333"/>
+                        <TextBlock Text="Environment: Production" FontSize="11" Foreground="#333333" Margin="0,5,0,0"/>
+                        <TextBlock Text="Framework: .NET 8.0 LTS" FontSize="11" Foreground="#333333" Margin="0,5,0,0"/>
+                        <TextBlock Text="Base de Données: SQL Server 2019" FontSize="11" Foreground="#333333" Margin="0,5,0,0"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Window>

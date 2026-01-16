@@ -1,0 +1,96 @@
+<Window x:Class="DigitalisationERP.Desktop.Views.AddProductionPostDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="Add Production Post" Height="450" Width="500"
+        WindowStartupLocation="CenterOwner"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{materialDesign:MaterialDesignFont}">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <TextBlock x:Name="HeaderTextBlock" Grid.Row="0" Text="New Production Post" 
+                   Style="{StaticResource MaterialDesignHeadline5TextBlock}"
+                   Margin="0,0,0,20"/>
+
+        <!-- Form -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <TextBox x:Name="PostCodeTextBox"
+                         materialDesign:HintAssist.Hint="Post Code (e.g., POST-001)"
+                         Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                         Margin="0,0,0,15"/>
+
+                <TextBox x:Name="PostNameTextBox"
+                         materialDesign:HintAssist.Hint="Post Name (e.g., Assembly Station)"
+                         Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                         Margin="0,0,0,15"/>
+
+                <TextBox x:Name="CurrentLoadTextBox"
+                         materialDesign:HintAssist.Hint="Current Stock"
+                         Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                         Margin="0,0,0,15"
+                         PreviewTextInput="NumberValidation_PreviewTextInput"/>
+
+                <TextBox x:Name="MaterialLevelTextBox"
+                         materialDesign:HintAssist.Hint="Material Level (%)"
+                         Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                         Margin="0,0,0,15"
+                         PreviewTextInput="NumberValidation_PreviewTextInput"/>
+
+                <TextBox x:Name="CycleTimeTextBox"
+                         materialDesign:HintAssist.Hint="Utility Time (TU) - seconds (e.g. 10) or ms (e.g. 5000)"
+                         Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                         Margin="0,0,0,15"
+                         PreviewTextInput="NumberValidation_PreviewTextInput"/>
+
+                <TextBox x:Name="BufferStockTextBox"
+                         materialDesign:HintAssist.Hint="Stock Capacity"
+                         Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                         Margin="0,0,0,15"
+                         PreviewTextInput="NumberValidation_PreviewTextInput"/>
+
+                <ComboBox x:Name="StatusComboBox"
+                          materialDesign:HintAssist.Hint="Status"
+                          Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                          Margin="0,0,0,15">
+                    <ComboBoxItem Content="Active" IsSelected="True"/>
+                    <ComboBoxItem Content="Idle"/>
+                    <ComboBoxItem Content="Maintenance"/>
+                    <ComboBoxItem Content="Offline"/>
+                </ComboBox>
+
+                <TextBox x:Name="XPositionTextBox"
+                         materialDesign:HintAssist.Hint="X Position"
+                         Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                         Margin="0,0,0,15"
+                         PreviewTextInput="NumberValidation_PreviewTextInput"/>
+
+                <TextBox x:Name="YPositionTextBox"
+                         materialDesign:HintAssist.Hint="Y Position"
+                         Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                         Margin="0,0,0,15"
+                         PreviewTextInput="NumberValidation_PreviewTextInput"/>
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Buttons -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+            <Button Content="CANCEL" 
+                    Style="{StaticResource MaterialDesignOutlinedButton}"
+                    Click="Cancel_Click"
+                    Width="100"
+                    Margin="0,0,10,0"/>
+            <Button x:Name="PrimaryActionButton" Content="ADD POST" 
+                    Style="{StaticResource MaterialDesignRaisedButton}"
+                    Click="AddPost_Click"
+                    Width="120"/>
+        </StackPanel>
+    </Grid>
+</Window>

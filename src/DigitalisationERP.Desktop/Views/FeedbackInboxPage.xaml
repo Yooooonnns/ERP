@@ -1,0 +1,57 @@
+<Page x:Class="DigitalisationERP.Desktop.Views.FeedbackInboxPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      Title="Feedback" Height="700" Width="1100">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Margin="0,0,0,12">
+            <TextBlock Text="Feedback / Remontées" FontSize="28" FontWeight="Bold"/>
+            <TextBlock Text="Inbox simple pour managers/team leaders (stockage local)." FontSize="14" Foreground="Gray"/>
+        </StackPanel>
+
+        <Grid Grid.Row="1" Margin="0,0,0,12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Orientation="Horizontal">
+                <ComboBox x:Name="StatusFilter" Width="160" materialDesign:HintAssist.Hint="Statut" SelectionChanged="StatusFilter_SelectionChanged">
+                    <ComboBoxItem Content="All" IsSelected="True"/>
+                    <ComboBoxItem Content="New"/>
+                    <ComboBoxItem Content="Acknowledged"/>
+                    <ComboBoxItem Content="Resolved"/>
+                </ComboBox>
+
+                <TextBlock x:Name="CountText" Margin="12,0,0,0" VerticalAlignment="Center" Foreground="Gray"/>
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                <Button Content="Rafraîchir" Style="{StaticResource MaterialDesignOutlinedButton}" Margin="0,0,10,0" Click="Refresh_Click"/>
+                <Button Content="Accusé" Style="{StaticResource MaterialDesignRaisedButton}" Margin="0,0,10,0" Click="Acknowledge_Click"/>
+                <Button Content="Résolu" Style="{StaticResource MaterialDesignRaisedButton}" Click="Resolve_Click"/>
+            </StackPanel>
+        </Grid>
+
+        <materialDesign:Card Grid.Row="2" Padding="10">
+            <DataGrid x:Name="FeedbackGrid" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single"
+                      HeadersVisibility="Column" GridLinesVisibility="Horizontal">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Créé" Binding="{Binding CreatedAt}" Width="*"/>
+                    <DataGridTextColumn Header="Task" Binding="{Binding TaskNumber}" Width="*"/>
+                    <DataGridTextColumn Header="Titre" Binding="{Binding TaskTitle}" Width="2*"/>
+                    <DataGridTextColumn Header="Par" Binding="{Binding SubmittedBy}" Width="*"/>
+                    <DataGridTextColumn Header="Statut" Binding="{Binding Status}" Width="*"/>
+                    <DataGridTextColumn Header="Message" Binding="{Binding Message}" Width="3*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </materialDesign:Card>
+    </Grid>
+</Page>
